@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kumbida payment flow simulation</title>
+<script src="../runtime/dc-lite.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EDF1EC}
+a{color:#356B68}a:hover{color:#294B49}
+input,select{font-family:Nunito,sans-serif}
+input::placeholder{color:#7E8C88}
+</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="min-height: 1080px; background: #EDF1EC; color: #294B49; font-family: Nunito, sans-serif; line-height: 1.45; padding: 24px clamp(12px, 2.5vw, 36px) 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+  <!-- HEADER + TRACKER -->
+  <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
+    <div style="display: flex; flex-direction: column">
+      <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #356B68">KUMBIDA · SIMULATION</span>
+      <h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 30px; line-height: 1.15">One client, from booking request to live invitation</h1>
+    </div>
+    <ol aria-label="Progress" style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px">
+      <template data-sc="for" list="{{track}}" as="t" hint-placeholder-count="4">
+        <li style="{{t.style}}"><span style="{{t.numStyle}}">{{t.num}}</span>{{t.label}}</li>
+      </template>
+    </ol>
+    <button type="button" onClick="{{reset}}" style="min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #B7C4BB; background: #FFFFFF; color: #294B49; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Restart simulation</button>
+  </header>
+
+  <p role="status" style="margin: 0; padding: 12px 16px; border-radius: 12px; background: #FFFFFF; border: 1px solid #C9D4CC; font-size: 15px"><strong>Next:</strong> {{hint}}</p>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+
+    <!-- ================= HOST PHONE ================= -->
+    <section aria-label="Host's phone" style="flex: 0 1 390px; min-width: 300px; display: flex; flex-direction: column; gap: 10px; align-items: center">
+      <span style="font-size: 13px; font-weight: 800; letter-spacing: 0.1em; color: #5A6B67">CLIENT · MIA (LIA'S MOM) · PHONE</span>
+      <div style="width: 100%; max-width: 390px; height: 820px; border-radius: 42px; border: 10px solid #1E3836; background: #F5F2E9; box-shadow: 0 24px 50px rgba(41, 75, 73, 0.22); overflow: hidden; box-sizing: border-box; display: flex; flex-direction: column">
+        <div style="padding: 14px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #DCE3DD; background: #FFFFFF">
+          <span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 8px; background: {{accent}}; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+          <span style="font-family: Fraunces, serif; font-size: 17px; font-weight: 600">Kumbida</span>
+          <span style="margin-left: auto; font-size: 12px; color: #5A6B67">Lia's First Birthday</span>
+        </div>
+        <div style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+
+          <!-- notification banner -->
+          <template data-sc="if" value="{{showConfirmBanner}}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="padding: 14px; border-radius: 16px; background: #2F7A5A; color: #FFFFFF; display: flex; gap: 12px; align-items: flex-start">
+              <span aria-hidden="true" style="flex: none; width: 32px; height: 32px; border-radius: 50%; background: #FFFFFF; color: #2F7A5A; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>
+              <span style="display: flex; flex-direction: column"><strong style="font-size: 16px">Payment confirmed!</strong><span style="font-size: 14px; color: #E3F2EA">₱{{priceStr}} received for order KMB-0483. You can now set up your invitation.</span></span>
+            </div>
+          </template>
+          <template data-sc="if" value="{{showRejectBanner}}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="padding: 14px; border-radius: 16px; background: #D7E0D9; border: 1px solid #C9D4CC; display: flex; flex-direction: column; gap: 4px">
+              <strong style="font-size: 15px; color: #356B68">We couldn't confirm your payment</strong>
+              <span style="font-size: 14px; color: #5A6B67">{{rejectReason}} Please check and submit again.</span>
+            </div>
+          </template>
+
+          <!-- WEBSITE: PACKAGES -->
+          <template data-sc="if" value="{{hSite}}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.12em; color: #356B68">KUMBIDA WEBSITE · PACKAGES</span>
+              <span style="font-family: Fraunces, serif; font-size: 24px; line-height: 1.15">Pick the package that fits your celebration</span>
+              <template data-sc="for" list="{{pkgs}}" as="k" hint-placeholder-count="4">
+                <div style="{{k.cardStyle}}">
+                  <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+                    <span style="font-family: Fraunces, serif; font-size: 20px">{{k.name}}</span>
+                    <span style="font-size: 18px; font-weight: 800">{{k.price}}</span>
+                  </div>
+                  <span style="font-size: 13px; color: #5A6B67">{{k.blurb}}</span>
+                  <button type="button" onClick="{{k.book}}" style="{{k.btnStyle}}">Book {{k.name}}</button>
+                </div>
+              </template>
+            </div>
+          </template>
+
+          <!-- BOOKING FORM (website) -->
+          <template data-sc="if" value="{{hBook}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <button type="button" onClick="{{backToSite}}" style="align-self: flex-start; min-height: 36px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #356B68; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">← Packages</button>
+              <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.12em; color: #356B68">KUMBIDA WEBSITE · BOOKING</span>
+              <span style="font-family: Fraunces, serif; font-size: 22px; line-height: 1.15">Tell us about your celebration</span>
+              <div style="padding: 12px 14px; border-radius: 14px; background: #D7E0D9; border: 2px solid {{accent}}; display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 12px; font-weight: 800; color: #356B68">PACKAGE YOU SELECTED</span>
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><span style="font-family: Fraunces, serif; font-size: 20px">{{chosenName}}</span><span style="font-size: 18px; font-weight: 800">₱{{priceShort}}</span></div>
+                <label for="bk-pkg" style="font-size: 12px; font-weight: 800; color: #5A6B67">Change package</label>
+                <select id="bk-pkg" value="{{pkgId}}" onChange="{{onPkg}}" style="min-height: 40px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #C9D4CC; background: #FFFFFF; font-size: 14px"><option value="starter">Starter · ₱299</option><option value="basic">Basic · ₱499</option><option value="lite">Lite · ₱999</option><option value="standard">Standard · ₱1,499</option></select>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 5px"><label for="bk-type" style="font-size: 13px; font-weight: 800">Celebrating</label><select id="bk-type" style="min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px"><option>Birthday</option><option>Wedding</option><option>Debut</option><option>Baptism</option><option>Anniversary</option><option>Other</option></select></div>
+              <div style="display: flex; flex-direction: column; gap: 5px"><label for="bk-cel" style="font-size: 13px; font-weight: 800">Celebrant's name and age</label><input id="bk-cel" type="text" value="Lia, turning 1" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+              <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+                <legend style="font-size: 13px; font-weight: 800; margin-bottom: 6px; padding: 0">Choose a design</legend>
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+                  <template data-sc="for" list="{{tpls}}" as="tp" hint-placeholder-count="3">
+                    <button type="button" aria-pressed="{{tp.on}}" onClick="{{tp.pick}}" style="{{tp.style}}">
+                      <span aria-hidden="true" style="{{tp.preview}}">{{tp.sample}}</span>
+                      <span style="font-size: 13px; font-weight: 800">{{tp.name}}</span>
+                    </button>
+                  </template>
+                </div>
+              </fieldset>
+              <div style="display: flex; flex-direction: column; gap: 5px"><label for="bk-date" style="font-size: 13px; font-weight: 800">Event date</label><input id="bk-date" type="date" value="2027-01-23" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+              <div style="display: flex; flex-direction: column; gap: 5px"><label for="bk-name" style="font-size: 13px; font-weight: 800">Your name</label><input id="bk-name" type="text" value="Mia Santos" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+              <div style="display: flex; flex-direction: column; gap: 5px"><label for="bk-mob" style="font-size: 13px; font-weight: 800">Mobile number</label><input id="bk-mob" type="tel" value="0917 123 4567" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+              <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+                <legend style="font-size: 13px; font-weight: 800; margin-bottom: 6px; padding: 0">Send my private link by</legend>
+                <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+                  <template data-sc="for" list="{{channels}}" as="c" hint-placeholder-count="3"><button type="button" aria-pressed="{{c.on}}" onClick="{{c.pick}}" style="{{c.style}}">{{c.label}}</button></template>
+                </div>
+              </fieldset>
+              <label for="bk-agree" style="display: flex; gap: 8px; align-items: flex-start; font-size: 13px; cursor: pointer"><input id="bk-agree" type="checkbox" checked="{{agree}}" onChange="{{onAgree}}" style="width: 20px; height: 20px; accent-color: {{accent}}">I agree to the terms and privacy policy.</label>
+              <button type="button" onClick="{{sendRequest}}" disabled="{{bookDisabled}}" style="{{bookBtnStyle}}">Send booking request</button>
+              <template data-sc="if" value="{{bookDisabled}}" hint-placeholder-val="{{ true }}"><span style="font-size: 13px; color: #5A6B67">{{bookTodo}}</span></template>
+            </div>
+          </template>
+
+          <!-- REQUEST SENT -->
+          <template data-sc="if" value="{{hRequested}}" hint-placeholder-val="{{ false }}">
+            <div style="background: #FFFFFF; border: 1.5px solid #CFE3D8; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+              <span style="font-family: Fraunces, serif; font-size: 22px">Request received, Mia!</span>
+              <span style="font-size: 14px; color: #5A6B67">Request <strong style="color: #294B49">KB-1042</strong> · {{chosenName}} ₱{{priceShort}} · design: {{tplName}} · Birthday · Lia, turning 1 · Jan 23, 2027</span>
+              <span style="font-size: 14px">We'll send your private link by <strong>{{channelName}}</strong> within [X hours]. Nothing to pay yet.</span>
+            </div>
+          </template>
+
+          <!-- MESSAGE WITH LINK (simulated chat app) -->
+          <template data-sc="if" value="{{hMsg}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <div style="display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid #DCE3DD">
+                <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 50%; background: {{accent}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-weight: 600">K</span>
+                <span style="display: flex; flex-direction: column"><strong style="font-size: 15px">Kumbida</strong><span style="font-size: 12px; color: #5A6B67">{{channelName}} (simulated)</span></span>
+              </div>
+              <div style="align-self: flex-start; max-width: 90%; padding: 10px 12px; border-radius: 16px 16px 16px 4px; background: #FFFFFF; border: 1px solid #DCE3DD; font-size: 14px; display: flex; flex-direction: column; gap: 8px">
+                <span>Hi Mia! Thank you for booking Kumbida (request KB-1042). Your <strong>{{chosenName}}</strong> order for <strong>Lia's First Birthday</strong> is ready. Pay and set up your invitation here:</span>
+                <button type="button" onClick="{{openHostLink}}" style="text-align: left; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #DCE3DD; background: #F5F2E9; font-family: Nunito, sans-serif; cursor: pointer; display: flex; flex-direction: column; gap: 2px">
+                  <strong style="font-size: 14px; color: #356B68">[domain]/h/7fK2xQ9m…</strong>
+                  <span style="font-size: 12px; color: #5A6B67">Your private Kumbida link · tap to open</span>
+                </button>
+                <span style="font-size: 12px; color: #5A6B67">Please keep this link private. It's how you manage your event.</span>
+              </div>
+            </div>
+          </template>
+
+          <!-- PAY -->
+          <template data-sc="if" value="{{hPay}}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: 14px">
+              <div style="background: #294B49; color: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+                <span style="font-size: 13px; font-weight: 800; color: #C5A66B">{{chosenName}} package · Order KMB-0483</span>
+                <span style="font-size: 34px; font-weight: 800; line-height: 1">₱{{priceStr}}</span>
+                <span style="font-size: 13px; color: #D7E0D9">Scan our UnionBank QR or send via InstaPay to [Account number].</span>
+              </div>
+              <div style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+                <span style="font-family: Fraunces, serif; font-size: 20px">Upload your receipt</span>
+                <template data-sc="if" value="{{noReceipt}}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; flex-direction: column; gap: 8px">
+                    <button type="button" onClick="{{useSample}}" style="min-height: 50px; border-radius: 12px; border: 2px dashed #B7C4BB; background: #F8F7F1; color: #356B68; font-family: Nunito, sans-serif; font-size: 15px; font-weight: 800; cursor: pointer">Use a sample GCash receipt</button>
+                    <label for="sim-file" style="position: relative; text-align: center; min-height: 40px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #5A6B67; cursor: pointer">or choose any image<input id="sim-file" type="file" accept="image/*" onChange="{{useFile}}" style="position: absolute; width: 1px; height: 1px; opacity: 0"></label>
+                  </div>
+                </template>
+                <template data-sc="if" value="{{reading}}" hint-placeholder-val="{{ false }}">
+                  <div role="status" style="padding: 18px; border-radius: 12px; background: #EDF1EC; text-align: center; font-weight: 800">Reading your receipt…</div>
+                </template>
+                <template data-sc="if" value="{{receiptRead}}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-direction: column; gap: 10px">
+                    <span style="font-size: 13px; font-weight: 700; color: #2F5A47">✓ GCash · InstaPay · sent to Kumbida's UnionBank · amount matches</span>
+                    <dl style="margin: 0; padding: 12px; border-radius: 12px; background: #F5FAF7; display: flex; flex-direction: column; gap: 6px; font-size: 14px">
+                      <div style="display: flex; justify-content: space-between"><dt style="color: #5A6B67">InstaPay Invoice No.</dt><dd style="margin: 0; font-weight: 800">5893610</dd></div>
+                      <div style="display: flex; justify-content: space-between"><dt style="color: #5A6B67">Amount</dt><dd style="margin: 0; font-weight: 800">₱{{priceStr}}</dd></div>
+                      <div style="display: flex; justify-content: space-between"><dt style="color: #5A6B67">Paid on</dt><dd style="margin: 0; font-weight: 800">Nov 18, 2026 · 2:33 PM</dd></div>
+                    </dl>
+                    <label for="sim-name" style="font-size: 14px; font-weight: 800">Name on the account you paid from</label>
+                    <input id="sim-name" type="text" placeholder="e.g. JUAN DELA CRUZ" value="{{payer}}" onChange="{{onPayer}}" style="min-height: 48px; padding: 0 14px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+                    <button type="button" onClick="{{submitPay}}" disabled="{{payDisabled}}" style="{{payBtnStyle}}">Submit payment</button>
+                    <template data-sc="if" value="{{payDisabled}}" hint-placeholder-val="{{ true }}">
+                      <span style="font-size: 13px; color: #5A6B67">To submit, type the name on the paying account.</span>
+                    </template>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+
+          <!-- CHECKING -->
+          <template data-sc="if" value="{{hChecking}}" hint-placeholder-val="{{ false }}">
+            <div style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+              <span style="display: flex; align-items: center; gap: 10px">
+                <span aria-hidden="true" style="flex: none; width: 40px; height: 40px; border-radius: 50%; background: #FFF4E5; color: #9A5B0C; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                <span style="font-family: Fraunces, serif; font-size: 22px; line-height: 1.15">We're checking your payment</span>
+              </span>
+              <span style="font-size: 14px; color: #5A6B67">₱{{priceStr}} · ref 5893610 · from {{payerShown}}. This page updates on its own.</span>
+              <div style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: #EDF1EC; color: #5A6B67; font-size: 14px; font-weight: 700">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                Set up your invitation (unlocks after confirmation)
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 12px; background: #EDF1EC; color: #5A6B67; font-size: 14px; font-weight: 700">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                Share your link and QR code
+              </div>
+            </div>
+          </template>
+
+          <!-- UNLOCKED -->
+          <template data-sc="if" value="{{hUnlocked}}" hint-placeholder-val="{{ false }}">
+            <div style="background: #FFFFFF; border: 1.5px solid #CFE3D8; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+              <span style="font-family: Fraunces, serif; font-size: 22px">You're all set to start</span>
+              <span style="font-size: 14px; color: #5A6B67">Add your event details and a photo. You can change them anytime.</span>
+              <button type="button" onClick="{{startSetup}}" style="min-height: 52px; border: 0; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; cursor: pointer">Set up your invitation</button>
+            </div>
+          </template>
+
+          <!-- SETUP -->
+          <template data-sc="if" value="{{hSetup}}" hint-placeholder-val="{{ false }}">
+            <div style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+              <span style="font-family: Fraunces, serif; font-size: 22px">Your invitation</span>
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="su-name" style="font-size: 14px; font-weight: 800">Celebrant's name</label><input id="su-name" type="text" value="{{celebrant}}" onChange="{{onCelebrant}}" style="min-height: 46px; padding: 0 12px; border-radius: 12px; border: 1.5px solid #BFCBC2; font-size: 16px; width: 100%; box-sizing: border-box"></div>
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="su-date" style="font-size: 14px; font-weight: 800">Date and time</label><input id="su-date" type="datetime-local" value="2027-01-23T15:00" style="min-height: 46px; padding: 0 12px; border-radius: 12px; border: 1.5px solid #BFCBC2; font-size: 15px; width: 100%; box-sizing: border-box"></div>
+              <div style="display: flex; flex-direction: column; gap: 6px"><label for="su-venue" style="font-size: 14px; font-weight: 800">Venue</label><input id="su-venue" type="text" value="{{venue}}" onChange="{{onVenue}}" placeholder="Venue name and address" style="min-height: 46px; padding: 0 12px; border-radius: 12px; border: 1.5px solid #BFCBC2; font-size: 16px; width: 100%; box-sizing: border-box"></div>
+              <button type="button" onClick="{{addPhoto}}" style="min-height: 46px; border-radius: 12px; border: 2px dashed {{photoBorder}}; background: #F8F7F1; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">{{photoLabel}}</button>
+              <button type="button" onClick="{{publish}}" disabled="{{publishDisabled}}" style="{{publishStyle}}">Publish invitation</button>
+              <template data-sc="if" value="{{publishDisabled}}" hint-placeholder-val="{{ true }}"><span style="font-size: 13px; color: #5A6B67">To publish, add the venue and a photo.</span></template>
+            </div>
+          </template>
+
+          <!-- LIVE -->
+          <template data-sc="if" value="{{hLive}}" hint-placeholder-val="{{ false }}">
+            <div style="background: #FFFFFF; border: 1.5px solid #CFE3D8; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start">
+              <span style="font-family: Fraunces, serif; font-size: 24px">Your invitation is live!</span>
+              <span style="font-size: 14px; color: #5A6B67">Share this link in your group chats, or print the QR code.</span>
+              <span style="padding: 10px 12px; border-radius: 10px; background: #EDF1EC; font-weight: 800; font-size: 15px">[domain]/{{slug}}</span>
+              <div role="img" aria-label="QR code placeholder" style="width: 120px; height: 120px; border-radius: 12px; border: 1px dashed #B7C4BB; background: #EDF1EC; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #5A6B67">QR code</div>
+              <button type="button" onClick="{{seeLive}}" style="align-self: stretch; min-height: 50px; border-radius: 12px; border: 0; background: #294B49; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                See live invitation
+              </button>
+              <div style="display: flex; gap: 8px; align-self: stretch">
+                <button type="button" style="flex: 1; min-height: 46px; border-radius: 12px; border: 0; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Copy link</button>
+                <button type="button" style="flex: 1; min-height: 46px; border-radius: 12px; border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Download QR</button>
+              </div>
+            </div>
+          </template>
+
+          <!-- LIVE PAGE PREVIEW (what guests see) -->
+          <template data-sc="if" value="{{hPreview}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+                <button type="button" onClick="{{backFromPreview}}" style="min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #EADCDD; background: #FFFFFF; color: #8E3446; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">← Back to my link</button>
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800; color: #2F5A47"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #2F7A5A"></span>LIVE · what guests see</span>
+              </div>
+              <div style="border-radius: 18px; background: #FFF7F2; border: 1px solid #EADCDD; padding: 26px 16px 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; color: #4A2E35">
+                <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.22em; color: #B5475C">YOU'RE INVITED TO</span>
+                <span style="display: flex; flex-direction: column; font-family: Fraunces, serif; line-height: 1">
+                  <span style="font-size: 50px; font-style: italic">{{celebrantPossessive}}</span>
+                  <span style="font-size: 24px">First Birthday</span>
+                </span>
+                <div style="position: relative; width: 190px; height: 230px; margin-top: 4px">
+                  <div style="width: 190px; height: 230px; border-radius: 95px 95px 20px 20px; background: #F6D3D9; border: 5px solid #FFFFFF; box-sizing: border-box; box-shadow: 0 8px 22px rgba(162, 61, 82, 0.15); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #7A4B56">lia.jpg</div>
+                  <div style="position: absolute; right: -10px; bottom: -10px; width: 68px; height: 68px; border-radius: 50%; background: #B5475C; border: 4px solid #FFF7F2; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center"><span style="font-family: Fraunces, serif; font-size: 32px; font-weight: 600; line-height: 0.9">1</span><span style="font-size: 8px; font-weight: 800; letter-spacing: 0.16em">YEAR</span></div>
+                </div>
+                <span style="margin-top: 8px; font-family: Fraunces, serif; font-style: italic; font-size: 17px; color: #6B4A52">Our little star is turning one!</span>
+                <span style="display: flex; flex-direction: column; gap: 2px; padding: 10px 16px; border-top: 1.5px solid #EBCFD4; border-bottom: 1.5px solid #EBCFD4">
+                  <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.12em">SATURDAY · JANUARY 23, 2027</span>
+                  <span style="font-size: 14px; font-weight: 600; color: #6B4A52">3:00 PM · {{venue}}</span>
+                </span>
+                <span style="min-height: 46px; display: inline-flex; align-items: center; padding: 0 22px; border-radius: 999px; background: #B5475C; color: #FFFFFF; font-size: 15px; font-weight: 800">RSVP by January 9</span>
+              </div>
+              <div style="border-radius: 16px; background: #FFFFFF; border: 1.5px solid #F1DADE; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+                <span style="font-family: Fraunces, serif; font-size: 20px; text-align: center">Will you celebrate with us?</span>
+                <div style="display: flex; gap: 8px">
+                  <span style="flex: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 2px solid #E6C3CA; font-size: 14px; font-weight: 800">Joyfully attending</span>
+                  <span style="flex: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 2px solid #E6C3CA; font-size: 14px; font-weight: 800">Can't make it</span>
+                </div>
+                <span style="font-size: 12px; color: #6E5A60; text-align: center">Preview only. Guests reply on the real page.</span>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ADMIN ================= -->
+    <section aria-label="Admin dashboard" style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 13px; font-weight: 800; letter-spacing: 0.1em; color: #5A6B67">YOU · ADMIN DASHBOARD</span>
+      <div style="background: #F5F2E9; border-radius: 22px; border: 1px solid #C9D4CC; overflow: hidden; display: flex; flex-direction: column">
+        <div style="padding: 14px 20px; background: #294B49; color: #FFFFFF; display: flex; align-items: center; gap: 12px">
+          <span style="font-family: Fraunces, serif; font-size: 18px; font-weight: 600">Kumbida</span>
+          <span style="padding: 2px 8px; border-radius: 999px; background: #356B68; font-size: 11px; font-weight: 800; color: #C5A66B">ADMIN</span>
+          <span style="margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700">{{adminSection}} <span style="{{badgeStyle}}">{{pendingCount}}</span></span>
+        </div>
+
+        <div style="padding: 20px; display: flex; flex-direction: column; gap: 16px; min-height: 380px">
+          <!-- INBOX: no message yet -->
+          <template data-sc="if" value="{{aWaitingMsg}}" hint-placeholder-val="{{ true }}">
+            <div style="padding: 36px; border-radius: 18px; background: #FFFFFF; border: 1.5px dashed #B7C4BB; text-align: center; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: Fraunces, serif; font-size: 22px">No new booking requests</span>
+              <span style="color: #5A6B67">When a client sends a booking request from the website, it shows up here.</span>
+            </div>
+          </template>
+
+          <!-- NEW BOOKING REQUEST -->
+          <template data-sc="if" value="{{aNewMsg}}" hint-placeholder-val="{{ false }}">
+            <article style="background: #FFFFFF; border: 1.5px solid {{accent}}; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
+                <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.1em; color: #356B68">NEW BOOKING REQUEST · WEBSITE</span>
+                <span style="font-size: 13px; color: #5A6B67">KB-1042 · just now</span>
+              </div>
+              <dl style="margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 18px; font-size: 14px">
+                <div><dt style="font-size: 12px; font-weight: 800; color: #5A6B67">PACKAGE (CHOSEN BY CLIENT)</dt><dd style="margin: 0; font-weight: 800; font-size: 16px">{{chosenName}} · ₱{{priceShort}}</dd></div>
+                <div><dt style="font-size: 12px; font-weight: 800; color: #5A6B67">DESIGN (CHOSEN BY CLIENT)</dt><dd style="margin: 0; font-weight: 800; font-size: 16px">{{tplName}}</dd></div>
+                <div><dt style="font-size: 12px; font-weight: 800; color: #5A6B67">EVENT</dt><dd style="margin: 0; font-weight: 700">Birthday · Lia, turning 1</dd></div>
+                <div><dt style="font-size: 12px; font-weight: 800; color: #5A6B67">DATE</dt><dd style="margin: 0; font-weight: 700">Jan 23, 2027</dd></div>
+                <div><dt style="font-size: 12px; font-weight: 800; color: #5A6B67">CLIENT</dt><dd style="margin: 0; font-weight: 700">Mia Santos · 0917 123 4567</dd></div>
+                <div><dt style="font-size: 12px; font-weight: 800; color: #5A6B67">SEND LINK BY</dt><dd style="margin: 0; font-weight: 700">{{channelName}}</dd></div>
+              </dl>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <button type="button" onClick="{{startCreate}}" style="min-height: 46px; padding: 0 18px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 15px; font-weight: 800; cursor: pointer">Create event from this request</button>
+                <button type="button" style="min-height: 46px; padding: 0 14px; border-radius: 12px; border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #5A6B67; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Not going ahead</button>
+              </div>
+            </article>
+          </template>
+
+          <!-- CREATE EVENT FORM -->
+          <template data-sc="if" value="{{aCreating}}" hint-placeholder-val="{{ false }}">
+            <article style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px">
+              <span style="font-family: Fraunces, serif; font-size: 22px">New event</span>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-name" style="font-size: 13px; font-weight: 800">Event name</label><input id="ne-name" type="text" value="Lia's First Birthday" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-type" style="font-size: 13px; font-weight: 800">Event type</label><select id="ne-type" style="min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px"><option>Birthday</option><option>Wedding</option><option>Baptism</option><option>Anniversary</option><option>Other</option></select></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-pkg" style="font-size: 13px; font-weight: 800">Package <span style="font-weight: 600; color: #5A6B67">(client chose {{clientPkgName}})</span></label><select id="ne-pkg" value="{{pkgId}}" onChange="{{onPkg}}" style="min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px"><option value="starter">Starter · ₱299</option><option value="basic">Basic · ₱499</option><option value="lite">Lite · ₱999</option><option value="standard">Standard · ₱1,499</option></select></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-tpl" style="font-size: 13px; font-weight: 800">Template <span style="font-weight: 600; color: #5A6B67">(client chose {{clientTplName}})</span></label><select id="ne-tpl" value="{{tplId}}" onChange="{{onTpl}}" style="min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px"><option value="little-star">Little Star</option><option value="golden-hour">Golden Hour</option><option value="simply-yours">Simply Yours</option></select></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-host" style="font-size: 13px; font-weight: 800">Host name</label><input id="ne-host" type="text" value="Mia" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-mob" style="font-size: 13px; font-weight: 800">Host mobile</label><input id="ne-mob" type="tel" value="0917 123 4567" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-slug" style="font-size: 13px; font-weight: 800">Page link</label><input id="ne-slug" type="text" value="lia-turns-1" style="min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px; box-sizing: border-box"></div>
+                <div style="display: flex; flex-direction: column; gap: 6px"><label for="ne-mode" style="font-size: 13px; font-weight: 800">RSVP mode</label><select id="ne-mode" style="min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #BFCBC2; font-size: 15px"><option>Open RSVP</option></select></div>
+              </div>
+              <span style="font-size: 13px; color: #5A6B67">Creating the event makes the order (₱{{priceStr}}) and the host's private link. The host can only pay until you confirm payment.</span>
+              <button type="button" onClick="{{createEvent}}" style="align-self: flex-start; min-height: 46px; padding: 0 18px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 15px; font-weight: 800; cursor: pointer">Create event</button>
+            </article>
+          </template>
+
+          <!-- CREATED: send link -->
+          <template data-sc="if" value="{{aCreated}}" hint-placeholder-val="{{ false }}">
+            <article style="background: #FFFFFF; border: 1.5px solid #CFE3D8; border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+              <span style="font-size: 15px; font-weight: 800; color: #2F5A47">✓ Event created · Order KMB-0483 · {{chosenName}} ₱{{priceStr}} · awaiting payment</span>
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #EDF1EC">
+                <span style="font-size: 13px; font-weight: 800; color: #5A6B67">HOST LINK</span>
+                <strong style="font-size: 15px">[domain]/h/7fK2xQ9m…</strong>
+              </div>
+              <button type="button" onClick="{{replyWithLink}}" style="align-self: flex-start; min-height: 46px; padding: 0 18px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 15px; font-weight: 800; cursor: pointer">Copy link &amp; send by {{channelName}}</button>
+            </article>
+          </template>
+
+          <template data-sc="if" value="{{adminEmpty}}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 36px; border-radius: 18px; background: #FFFFFF; border: 1.5px dashed #B7C4BB; text-align: center; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: Fraunces, serif; font-size: 22px">No payments waiting</span>
+              <span style="color: #5A6B67">When the host submits their receipt, it appears here.</span>
+            </div>
+          </template>
+
+          <template data-sc="if" value="{{adminHasOrder}}" hint-placeholder-val="{{ false }}">
+            <article style="background: #FFFFFF; border: 1.5px solid {{orderBorder}}; border-radius: 18px; overflow: hidden">
+              <header style="padding: 14px 18px; background: #EDF1EC; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center">
+                <span style="display: flex; flex-direction: column"><strong style="font-size: 16px">Lia's First Birthday</strong><span style="font-size: 13px; color: #5A6B67">Order KMB-0483 · {{chosenName}} ₱{{priceStr}} · host Mia · submitted just now</span></span>
+                <span style="padding: 6px 12px; border-radius: 999px; background: #EEF5F1; color: #2F5A47; font-size: 14px; font-weight: 800">₱{{priceStr}} of ₱{{priceStr}}</span>
+              </header>
+              <div style="padding: 16px 18px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+                <div aria-hidden="true" style="flex: none; width: 54px; height: 96px; border-radius: 8px; background: #E9E3F4; border: 1px solid #D3CBE6; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #5E4E7A">RECEIPT</div>
+                <div style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+                  <span style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap"><span style="font-size: 12px; font-weight: 800; color: #5A6B67">REF</span><span style="font-size: 26px; font-weight: 800; letter-spacing: 0.06em">893610</span><span style="font-size: 13px; color: #5A6B67">(5893610)</span></span>
+                  <span style="font-size: 15px"><strong>₱{{priceStr}}</strong> · Nov 18 · 2:33 PM · GCash · from <strong>{{payerShown}}</strong></span>
+                  <span style="font-size: 13px; font-weight: 700; color: #2F5A47">No flags · receipt read matched what the client submitted</span>
+                  <template data-sc="if" value="{{adminRejecting}}" hint-placeholder-val="{{ false }}">
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px; border-radius: 12px; background: #D7E0D9">
+                      <label for="sim-reason" style="font-size: 13px; font-weight: 800">Reason the host will see</label>
+                      <select id="sim-reason" value="{{reasonIdx}}" onChange="{{onReason}}" style="min-height: 40px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #C9D4CC; background: #FFFFFF; font-size: 14px">
+                        <option value="0">Reference not found yet. Please check the number.</option>
+                        <option value="1">Amount doesn't match what we received.</option>
+                        <option value="2">Screenshot is unclear. Please upload a sharper one.</option>
+                      </select>
+                      <button type="button" onClick="{{doReject}}" style="min-height: 40px; padding: 0 14px; border-radius: 10px; border: 0; background: #356B68; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">Send rejection</button>
+                    </div>
+                  </template>
+                </div>
+                <div style="flex: none; display: flex; flex-direction: column; gap: 8px; min-width: 180px">
+                  <template data-sc="if" value="{{adminPending}}" hint-placeholder-val="{{ true }}">
+                    <div style="display: flex; flex-direction: column; gap: 8px">
+                      <button type="button" onClick="{{confirm}}" style="min-height: 46px; border-radius: 10px; border: 0; background: #2F7A5A; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Confirm, found in bank</button>
+                      <button type="button" onClick="{{startReject}}" style="min-height: 44px; border-radius: 10px; border: 1.5px solid #C9D4CC; background: #FFFFFF; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Reject…</button>
+                    </div>
+                  </template>
+                  <template data-sc="if" value="{{adminConfirmed}}" hint-placeholder-val="{{ false }}">
+                    <span style="padding: 10px 12px; border-radius: 10px; background: #EEF5F1; color: #2F5A47; font-size: 14px; font-weight: 800; text-align: center">✓ Confirmed · host notified</span>
+                  </template>
+                </div>
+              </div>
+            </article>
+
+            <!-- simulated bank -->
+            <div style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px">
+              <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.1em; color: #5A6B67">YOUR UNIONBANK APP (SIMULATED) · CHECK THIS BEFORE CONFIRMING</span>
+              <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #FFF6EE; border: 1px solid #F3D9BF">
+                <span style="display: flex; flex-direction: column"><span style="font-size: 15px">Received from {{payerUpper}} GXI <mark style="background: #FDE68A; padding: 0 3px; border-radius: 4px; font-weight: 800">893610</mark></span><span style="font-size: 13px; color: #5A6B67">UB-ref UB451209 · Nov 18, 2026 02:33 PM</span></span>
+                <strong style="font-size: 16px">PHP {{priceStr}}</strong>
+              </div>
+              <span style="font-size: 13px; color: #5A6B67">Reference, amount, date and name match the receipt above.</span>
+            </div>
+          </template>
+
+          <template data-sc="if" value="{{hasLog}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid #C9D4CC">
+              <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.1em; color: #5A6B67">ACTIVITY</span>
+              <template data-sc="for" list="{{log}}" as="l" hint-placeholder-count="2"><span style="font-size: 14px"><span style="color: #5A6B67; font-variant-numeric: tabular-nums">{{l.t}}</span> · {{l.text}}</span></template>
+            </div>
+          </template>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#356B68","options":["#356B68","#294B49","#4A7A5E"]},"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.fresh();
+  }
+  fresh() {
+    return { host: 'site', tplId: '', clientTpl: '', pkgId: 'basic', clientPkg: 'basic', channel: 'viber', agree: false, admin: 'inbox', receipt: 'none', payer: '', rejecting: false, reasonIdx: '0', rejectReason: '', showConfirm: false, celebrant: 'Lia', venue: '', photo: false, log: [], minute: 20 };
+  }
+  componentWillUnmount() { if (this.timer) clearTimeout(this.timer); }
+  stamp() { var m = this.state.minute; this.setState({ minute: m + 1 }); return '2:' + (m < 10 ? '0' + m : m) + ' PM'; }
+  addLog(text) { var t = this.stamp(); this.setState({ log: this.state.log.concat([{ t: t, text: text }]) }); }
+  renderVals() {
+    var s = this.state, self = this;
+    var accent = this.props.accent ?? '#356B68';
+    var PKGS = {
+      starter: { name: 'Starter', price: 299, blurb: 'Invitation page only, no RSVP. You set it up.' },
+      basic: { name: 'Basic', price: 499, blurb: 'Invitation + RSVP form and live responses. You set it up.' },
+      lite: { name: 'Lite', price: 999, blurb: 'We set it up: 3 photos, full RSVP, spreadsheet download.' },
+      standard: { name: 'Standard', price: 1499, blurb: 'Everything in Lite plus a photo gallery.' }
+    };
+    var chosen = PKGS[s.pkgId];
+    var CH = { messenger: 'Messenger', viber: 'Viber', sms: 'Text message' };
+    var chName = CH[s.channel];
+    var TPLS = { 'little-star': ['Little Star', '#FCE8EB', '#8E3446', 'Fraunces, serif; font-style: italic', 'Lia\u2019s 1st'], 'golden-hour': ['Golden Hour', '#22304A', '#F2D38B', 'Fraunces, serif; font-style: italic', 'Lia turns 1'], 'simply-yours': ['Simply Yours', '#F4F1EE', '#2B2B2B', 'Nunito, sans-serif; font-weight: 800', 'Lia · 1'] };
+    var tplName = s.tplId ? TPLS[s.tplId][0] : 'not chosen';
+    var priceStr = chosen.price.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    var priceShort = chosen.price.toLocaleString('en-PH');
+    var selfSetup = s.pkgId === 'starter' || s.pkgId === 'basic';
+    var REASONS = ['Reference not found yet.', 'The amount doesn’t match what we received.', 'The screenshot is unclear.'];
+
+    var stage;
+    if (s.host === 'site' || s.host === 'book') stage = 1;
+    else if (s.host === 'requested' || s.host === 'msg') stage = 2;
+    else stage = s.host === 'pay' ? 3 : s.host === 'checking' ? 4 : (s.host === 'unlocked' || s.host === 'setup') ? 5 : 6;
+    var TRACK = ['Client books', 'You create event', 'Host pays', 'You confirm', 'Host sets up', 'Live'];
+    var track = TRACK.map(function (label, i) {
+      var n = i + 1, done = n < stage, cur = n === stage;
+      return { num: done ? '✓' : String(n), label: label,
+        style: 'display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; font-size: 14px; font-weight: 800; ' + (cur ? 'background: #294B49; color: #FFFFFF;' : done ? 'background: #EEF5F1; color: #2F5A47;' : 'background: #FFFFFF; color: #5A6B67; border: 1px solid #C9D4CC;'),
+        numStyle: 'width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; ' + (cur ? 'background: ' + accent + '; color: #FFFFFF;' : done ? 'background: #2F7A5A; color: #FFFFFF;' : 'background: #EDF1EC; color: #5A6B67;') };
+    });
+
+    var hint;
+    if (s.host === 'site') hint = 'On the client\u2019s phone, tap \u201cBook\u201d on the package they want (Basic is the example).';
+    else if (s.host === 'book') hint = 'The package is already selected. Pick a design, tick the terms box and tap \u201cSend booking request\u201d.';
+    else if (s.admin === 'newmsg') hint = 'In admin, open the booking request and tap \u201cCreate event from this request\u201d.';
+    else if (s.admin === 'creating') hint = 'The package and design the client chose are pre-filled. Tap \u201cCreate event\u201d.';
+    else if (s.admin === 'created') hint = 'Tap \u201cCopy link & send by ' + chName + '\u201d to send the host their private link.';
+    else if (s.host === 'msg') hint = 'On the phone, tap the private link in Kumbida\u2019s message.';
+    else hint = {
+      pay: s.receipt === 'read' ? 'On the phone, type the payer’s name and tap Submit payment.' : 'On the phone, tap “Use a sample GCash receipt”.',
+      checking: 'In admin, check the UnionBank entry, then tap “Confirm, found in bank” (or try Reject).',
+      unlocked: 'The host got the confirmation. Tap “Set up your invitation” on the phone.',
+      setup: 'Add a venue and a photo, then publish.',
+      live: 'Tap “See live invitation” to see the page guests will open, or Restart simulation.',
+      preview: 'This is the live page guests see. Tap “Back to my link”, or Restart simulation.'
+    }[s.host];
+
+    var payerShown = s.payer.trim() || 'JUAN DELA CRUZ';
+    var payDisabled = !s.payer.trim();
+    var publishDisabled = !s.venue.trim() || !s.photo;
+    var btn = function (disabled) { return 'min-height: 52px; border: 0; border-radius: 999px; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; ' + (disabled ? 'background: #E3E7E2; color: #6F7C78; cursor: not-allowed;' : 'background: ' + accent + '; color: #FFFFFF; cursor: pointer;'); };
+    var startRead = function () {
+      self.setState({ receipt: 'reading' });
+      if (self.timer) clearTimeout(self.timer);
+      self.timer = setTimeout(function () { self.setState({ receipt: 'read' }); }, 1200);
+    };
+    var inPayPhase = ['empty', 'pending', 'confirmed'].indexOf(s.admin) >= 0;
+    var pending = s.admin === 'pending' ? 1 : (s.admin === 'newmsg' ? 1 : 0);
+    var pkgs = ['starter', 'basic', 'lite', 'standard'].map(function (id) {
+      var k = PKGS[id], hi = id === 'basic';
+      return { name: k.name, blurb: k.blurb, price: '₱' + k.price.toLocaleString('en-PH'),
+        cardStyle: 'background: #FFFFFF; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 6px; border: 1.5px solid ' + (hi ? accent : '#DCE3DD') + ';',
+        btnStyle: 'min-height: 44px; border-radius: 12px; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; ' + (hi ? 'border: 0; background: ' + accent + '; color: #FFFFFF;' : 'border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #356B68;'),
+        book: function () {
+          self.setState({ pkgId: id, clientPkg: id, host: 'book' });
+        } };
+    });
+
+    return {
+      accent: accent, track: track, hint: hint,
+      reset: function () { if (self.timer) clearTimeout(self.timer); self.setState(self.fresh()); },
+      chosenName: chosen.name, priceStr: priceStr, pkgId: s.pkgId,
+      // host: site + chat
+      hSite: s.host === 'site', pkgs: pkgs,
+      hBook: s.host === 'book', hRequested: s.host === 'requested', hMsg: s.host === 'msg',
+      backToSite: function () { self.setState({ host: 'site' }); },
+      channelName: chName, priceShort: priceShort, clientPkgName: PKGS[s.clientPkg].name,
+      channels: [['messenger', 'Messenger'], ['viber', 'Viber'], ['sms', 'Text']].map(function (c) {
+        var on = s.channel === c[0];
+        return { label: c[1], on: on, pick: function () { self.setState({ channel: c[0] }); },
+          style: 'min-height: 42px; border-radius: 10px; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer; ' + (on ? 'background: ' + accent + '; color: #FFFFFF; border: 2px solid ' + accent + ';' : 'background: #FFFFFF; color: #294B49; border: 2px solid #C9D4CC;') };
+      }),
+      agree: s.agree, onAgree: function (e) { self.setState({ agree: e.target.checked }); },
+      tpls: ['little-star', 'golden-hour', 'simply-yours'].map(function (id) {
+        var t = TPLS[id], on = s.tplId === id;
+        return { name: t[0], sample: t[4], on: on, pick: function () { self.setState({ tplId: id }); },
+          style: 'padding: 6px; border-radius: 12px; cursor: pointer; display: flex; flex-direction: column; gap: 6px; font-family: Nunito, sans-serif; color: #294B49; background: #FFFFFF; ' + (on ? 'border: 2px solid ' + accent + '; box-shadow: 0 0 0 3px #D7E0D9;' : 'border: 2px solid #DCE3DD;'),
+          preview: 'height: 64px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; background: ' + t[1] + '; color: ' + t[2] + '; font-family: ' + t[3] + ';' };
+      }),
+      tplName: tplName, tplId: s.tplId || 'little-star', clientTplName: s.clientTpl ? TPLS[s.clientTpl][0] : '—',
+      onTpl: function (e) { self.setState({ tplId: e.target.value }); },
+      bookDisabled: !s.agree || !s.tplId, bookBtnStyle: btn(!s.agree || !s.tplId),
+      bookTodo: !s.tplId && !s.agree ? 'To send, choose a design and agree to the terms.' : (!s.tplId ? 'To send, choose a design.' : 'To send, agree to the terms and privacy policy.'),
+      sendRequest: function () {
+        if (!s.agree || !s.tplId) return;
+        self.setState({ host: 'requested', admin: 'newmsg', clientPkg: s.pkgId, clientTpl: s.tplId });
+        self.addLog('New booking request KB-1042 from Mia Santos (' + chosen.name + ' ₱' + priceShort + ', ' + tplName + ' design)');
+      },
+      openHostLink: function () { self.setState({ host: 'pay', admin: 'empty' }); self.addLog('Host opened their private link'); },
+      // admin: booking
+      aWaitingMsg: s.admin === 'inbox', aNewMsg: s.admin === 'newmsg', aCreating: s.admin === 'creating', aCreated: s.admin === 'created',
+      adminSection: inPayPhase ? 'Payments to verify' : 'Booking requests',
+      startCreate: function () { self.setState({ admin: 'creating' }); },
+      onPkg: function (e) { self.setState({ pkgId: e.target.value }); },
+      createEvent: function () { self.setState({ admin: 'created' }); self.addLog('You created Lia’s First Birthday (' + chosen.name + ' ₱' + priceStr + '). Order KMB-0483 and host link generated.'); },
+      replyWithLink: function () { self.setState({ host: 'msg', admin: 'empty' }); self.addLog('You sent Mia her private link by ' + chName); },
+      // host: pay onward
+      hPay: s.host === 'pay', hChecking: s.host === 'checking', hUnlocked: s.host === 'unlocked', hSetup: s.host === 'setup', hLive: s.host === 'live', hPreview: s.host === 'preview',
+      seeLive: function () { self.setState({ host: 'preview' }); },
+      backFromPreview: function () { self.setState({ host: 'live' }); },
+      celebrantPossessive: (s.celebrant.trim() || 'Lia') + '’s',
+      showConfirmBanner: s.showConfirm && (s.host === 'unlocked' || s.host === 'setup'),
+      showRejectBanner: s.host === 'pay' && !!s.rejectReason, rejectReason: s.rejectReason,
+      noReceipt: s.receipt === 'none', reading: s.receipt === 'reading', receiptRead: s.receipt === 'read',
+      useSample: startRead,
+      useFile: function (e) { if (e.target.files && e.target.files[0]) startRead(); },
+      payer: s.payer, onPayer: function (e) { self.setState({ payer: e.target.value }); },
+      payerShown: payerShown, payerUpper: payerShown.toUpperCase(),
+      payDisabled: payDisabled, payBtnStyle: btn(payDisabled),
+      submitPay: function () {
+        if (payDisabled) return;
+        self.setState({ host: 'checking', admin: 'pending', rejecting: false, rejectReason: '' });
+        self.addLog('Host submitted ₱' + priceStr + ' (ref 5893610)');
+      },
+      startSetup: function () { self.setState({ host: 'setup' }); },
+      celebrant: s.celebrant, onCelebrant: function (e) { self.setState({ celebrant: e.target.value }); },
+      venue: s.venue, onVenue: function (e) { self.setState({ venue: e.target.value }); },
+      addPhoto: function () { self.setState({ photo: true }); },
+      photoLabel: s.photo ? '✓ Photo added (lia.jpg)' : 'Add main photo',
+      photoBorder: s.photo ? '#9CC7B2' : '#B7C4BB',
+      publishDisabled: publishDisabled, publishStyle: btn(publishDisabled),
+      publish: function () {
+        if (publishDisabled) return;
+        self.setState({ host: 'live', showConfirm: false });
+        self.addLog('Host published Lia’s First Birthday. It’s live.');
+      },
+      slug: (s.celebrant || 'lia').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '-turns-1',
+      // admin: payments
+      adminEmpty: s.admin === 'empty', adminHasOrder: s.admin === 'pending' || s.admin === 'confirmed',
+      adminPending: s.admin === 'pending', adminConfirmed: s.admin === 'confirmed',
+      orderBorder: s.admin === 'confirmed' ? '#CFE3D8' : accent,
+      adminRejecting: s.rejecting && s.admin === 'pending',
+      pendingCount: pending,
+      badgeStyle: 'min-width: 24px; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 800; text-align: center; ' + (pending ? 'background: ' + accent + '; color: #FFFFFF;' : 'background: #356B68; color: #B7C4BB;'),
+      confirm: function () {
+        self.setState({ admin: 'confirmed', host: 'unlocked', showConfirm: true, rejecting: false });
+        self.addLog('You confirmed the payment. Order Paid; host link unlocked' + (selfSetup ? '.' : ' and event added to your setup queue.'));
+      },
+      startReject: function () { self.setState({ rejecting: true }); },
+      reasonIdx: s.reasonIdx, onReason: function (e) { self.setState({ reasonIdx: e.target.value }); },
+      doReject: function () {
+        var reason = REASONS[parseInt(s.reasonIdx, 10) || 0];
+        self.setState({ admin: 'empty', host: 'pay', receipt: 'read', rejecting: false, rejectReason: reason });
+        self.addLog('You rejected the receipt: “' + reason + '” The host was asked to resubmit.');
+      },
+      log: s.log, hasLog: s.log.length > 0
+    };
+  }
+}
+</script></template>
+
+</body>
+</html>

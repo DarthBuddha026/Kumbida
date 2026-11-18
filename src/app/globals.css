@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* Site tokens: design/tokens.css (§6.6). Invitation covers keep their own colors and fonts. */
+@theme {
+  --color-cream: #F5F2E9;
+  --color-teal: #356B68;
+  --color-deep: #294B49;
+  --color-gold: #C5A66B;
+  --color-mist: #D7E0D9;
+  --color-darkest: #1E3836;
+  --color-muted: #5A6B67;
+  --color-line: #DCE3DD;
+  --color-field: #BFCBC2;
+  --color-fill: #EDF1EC;
+  --color-off: #E3E7E2;
+  --color-off-ink: #6F7C78;
+  --color-ok-bg: #EEF5F1;
+  --color-ok-ink: #2F5A47;
+  /* Supporting shades used in design/pages */
+  --color-body2: #34504D;
+  --color-outline: #C9D4CC;
+  --color-sage: #B7C4BB;
+  --color-slate: #7E8C88;
+}
+
+@theme inline {
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
+}
+
+@layer base {
+  /* Keep anchor targets (#how, #designs, …) clear of the sticky header. */
+  html { scroll-behavior: smooth; scroll-padding-top: 112px; }
+  @media (min-width: 64rem) { html { scroll-padding-top: 82px; } }
+  body { background: var(--color-cream); color: var(--color-deep); line-height: 1.5; }
+  a { color: var(--color-teal); }
+  a:hover { color: var(--color-deep); }
+  input::placeholder, textarea::placeholder { color: #7E8C88; }
+  :focus-visible { outline: 3px solid var(--color-teal); outline-offset: 2px; }
+}
+
+@utility wrap { @apply mx-auto w-full max-w-[1200px] px-6; }
+@utility eyebrow { @apply m-0 text-[13px] font-extrabold tracking-[0.16em] text-teal; }
+@utility h-section { @apply m-0 font-display text-[clamp(32px,6vw,42px)] leading-[1.1] font-medium text-balance; }
+@utility field { @apply min-h-[50px] w-full rounded-xl border-[1.5px] border-field bg-white px-4 text-base text-deep; }
+@utility label { @apply text-sm font-extrabold; }
+
+/* Modal entrance: panel fades and rises, backdrop fades. */
+dialog.modal[open] .modal-panel { animation: modal-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+dialog.modal[open]::backdrop { animation: fade-in 260ms ease-out; }
+@keyframes modal-in { from { opacity: 0; transform: translateY(24px) scale(0.96); } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes pill-in { from { opacity: 0; transform: translateX(-12px); } }
+
+/* Demo page Desktop ⇄ Mobile switch: the guest view morphs between the split layout and the phone frame.
+   Snapshots keep their top edge and are clipped to the moving box, so the content crossfades without stretching. */
+::view-transition-group(guest-view) { animation-duration: 450ms; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+::view-transition-image-pair(guest-view) { overflow: hidden; border-radius: 28px; }
+::view-transition-old(guest-view),
+::view-transition-new(guest-view) { height: 100%; object-fit: cover; object-position: top; animation-duration: 300ms; }
+/* The outgoing view fades out quickly so its stretched snapshot never lingers. */
+::view-transition-old(guest-view) { animation-duration: 140ms; }
+@media (prefers-reduced-motion: reduce) {
+  dialog.modal[open] .modal-panel, dialog.modal[open]::backdrop { animation: none; }
+}

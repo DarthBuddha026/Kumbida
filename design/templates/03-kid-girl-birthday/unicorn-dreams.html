@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unicorn Dreams invitation</title>
+<script src="../../runtime/dc-lite.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FDF0F6; color: #6B3A6E; font-family: Quicksand, sans-serif; display: flex; flex-direction: column; align-items: center; text-align: center; box-sizing: border-box; padding: 150px 30px 0">
+  <svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+    <g fill="none" stroke-width="12">
+      <path d="M40 150 A155 155 0 0 1 350 150" stroke="#F7A6C9"/>
+      <path d="M52 150 A143 143 0 0 1 338 150" stroke="#FBD38D"/>
+      <path d="M64 150 A131 131 0 0 1 326 150" stroke="#B5E3C4"/>
+      <path d="M76 150 A119 119 0 0 1 314 150" stroke="#A8D8F0"/>
+      <path d="M88 150 A107 107 0 0 1 302 150" stroke="#C9B6F2"/>
+    </g>
+    <g fill="#FFFFFF"><circle cx="40" cy="150" r="20"/><circle cx="64" cy="156" r="16"/><circle cx="22" cy="160" r="14"/><circle cx="350" cy="150" r="20"/><circle cx="326" cy="156" r="16"/><circle cx="368" cy="160" r="14"/></g>
+    <path transform="translate(30 300) scale(0.8)" d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="{{accent}}"/><path transform="translate(340 360) scale(1)" d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#FBD38D"/><path transform="translate(26 560) scale(0.6)" d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#C9B6F2"/>
+    <g transform="translate(290 690)">
+      <path d="M8 10 L22 -40 L30 14 Z" fill="#F6D58E" stroke="#E0B65C" stroke-width="1.5"/>
+      <path d="M0 20 C 0 0, 40 -6, 56 16 C 70 34, 72 64, 60 80 L 20 96 C 0 80, 0 50, 0 20 Z" fill="#FFFFFF" stroke="#E7C9DC" stroke-width="2"/>
+      <ellipse cx="62" cy="70" rx="18" ry="14" fill="#FBE3EE"/>
+      <circle cx="32" cy="38" r="4" fill="#6B3A6E"/>
+      <circle cx="-6" cy="26" r="14" fill="{{accent}}"/><circle cx="-12" cy="50" r="14" fill="#C9B6F2"/><circle cx="-10" cy="74" r="14" fill="#A8D8F0"/><circle cx="2" cy="6" r="12" fill="#FBD38D"/>
+      <path d="M4 -2 L-6 -16 L14 -6 Z" fill="#FFFFFF" stroke="#E7C9DC" stroke-width="1.5"/>
+    </g>
+  </svg>
+
+  <p style="position: relative; margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.24em">A MAGICAL PARTY FOR</p>
+  <h1 style="position: relative; margin: 12px 0 0; display: flex; flex-direction: column; align-items: center; line-height: 1; font-weight: 400">
+    <span style="font-family: Pacifico, cursive; font-size: 46px; color: #C2549A; line-height: 1.2">Birthday Star</span>
+    <span style="margin-top: 6px; font-size: 20px; font-weight: 700">who’s turning 6</span>
+  </h1>
+
+  <div style="position: relative; margin-top: 22px; width: 200px; height: 200px; border-radius: 50%; border: 7px solid #FFFFFF; box-shadow: 0 0 0 4px {{accent}}; background: #F8DCEA; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #9C3F7E">Celebrant's photo</div>
+
+  <p style="position: relative; margin: 20px 0 0; font-size: 18px; font-weight: 600">Rainbows, sparkles and a whole lot of magic. Come celebrate!</p>
+  <div style="position: relative; margin-top: 12px; display: flex; flex-direction: column; gap: 2px; ">
+    <span style="font-size: 15px; font-weight: 600">[Day], [Month Day, Year] · [Time]</span>
+    <span style="font-size: 15px">[Venue name], [City]</span>
+  </div>
+  <a href="#" style="position: relative; margin-top: 18px; min-height: 48px; display: inline-flex; align-items: center; padding: 0 30px; text-decoration: none; border-radius: 999px; background: #C2549A; color: #FFFFFF; font-size: 16px; font-weight: 700">RSVP by [Date]</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F7A6C9","options":["#F7A6C9", "#A8D8F0", "#C9B6F2"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { accent: this.props.accent ?? '#F7A6C9' }; }
+}
+</script></template>
+
+</body>
+</html>

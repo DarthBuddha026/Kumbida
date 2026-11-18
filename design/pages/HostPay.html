@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kumbida — Pay for your event</title>
+<script src="../runtime/dc-lite.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F2E9}
+a{color:#356B68}a:hover{color:#294B49}
+input{font-family:Nunito,sans-serif}
+input::placeholder{color:#7E8C88}
+</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="width: 390px; min-height: 2500px; box-sizing: border-box; background: #F5F2E9; color: #294B49; font-family: Nunito, sans-serif; line-height: 1.45; display: flex; flex-direction: column">
+
+  <header style="padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #DCE3DD; background: #FFFFFF">
+    <div style="display: flex; align-items: center; gap: 8px">
+      <span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 8px; background: {{accent}}; display: flex; align-items: center; justify-content: center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </span>
+      <span style="font-family: Fraunces, serif; font-size: 18px; font-weight: 600">Kumbida</span>
+    </div>
+    <span style="font-size: 13px; font-weight: 700; color: #5A6B67">Your private link</span>
+  </header>
+
+  <div style="padding: 20px 16px 32px; display: flex; flex-direction: column; gap: 16px; flex-grow: 1">
+
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; color: #356B68">YOUR EVENT</span>
+      <h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 28px; line-height: 1.15">Lia's First Birthday</h1>
+    </div>
+    <ol aria-label="Steps" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+      <li style="{{step1Style}}"><span style="font-weight: 800">1</span> Pay</li>
+      <li style="{{step2Style}}"><span style="font-weight: 800">2</span> Set up page</li>
+      <li style="{{step3Style}}"><span style="font-weight: 800">3</span> Share</li>
+    </ol>
+
+    <!-- ===== PAY FORM ===== -->
+    <template data-sc="if" value="{{isForm}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+
+        <template data-sc="if" value="{{showRejectNote}}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="padding: 14px 16px; border-radius: 16px; background: #D7E0D9; border: 1px solid #C9D4CC; display: flex; flex-direction: column; gap: 4px">
+            <span style="font-size: 15px; font-weight: 800; color: #356B68">We couldn't find this payment yet</span>
+            <span style="font-size: 14px; color: #5A6B67">No payment ending in {{last6}} on the date shown. Check the details below, or upload a clearer screenshot.</span>
+          </div>
+        </template>
+
+        <!-- AMOUNT -->
+        <section aria-labelledby="amt-h" style="background: #294B49; color: #FFFFFF; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+            <h2 id="amt-h" style="margin: 0; font-size: 14px; font-weight: 800; letter-spacing: 0.04em; color: #C5A66B">Basic package</h2>
+            <span style="font-size: 13px; color: #B7C4BB">Order KMB-0482</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+            <span style="font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1">₱499.00</span>
+            <button type="button" onClick="{{copyAmount}}" style="min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1.5px solid #7E8C88; background: transparent; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">{{amountBtn}}</button>
+          </div>
+          <p style="margin: 0; font-size: 14px; color: #D7E0D9">Send <strong>exactly ₱499.00</strong>. Your app may add a ₱10 InstaPay fee on top. That's normal; don't subtract it.</p>
+        </section>
+
+        <!-- 1. SEND -->
+        <section aria-labelledby="how-h" style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+          <h2 id="how-h" style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 22px">1. Send your payment</h2>
+          <div style="display: flex; gap: 14px; align-items: center">
+            <div role="img" aria-label="Kumbida UnionBank QR code" style="flex: none; width: 128px; height: 128px; border-radius: 14px; background: #EDF1EC; border: 1px dashed #B7C4BB; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: 700; color: #5A6B67; padding: 10px; box-sizing: border-box">UnionBank QR code</div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <span style="font-size: 15px; font-weight: 800">Scan to pay</span>
+              <span style="font-size: 14px; color: #5A6B67">Works with GCash, Maya and any bank app that scans InstaPay QR.</span>
+              <button type="button" style="align-self: flex-start; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #356B68; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">Save QR image</button>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; color: #7E8C88; font-size: 12px; font-weight: 800; letter-spacing: 0.12em">
+            <span style="flex: 1; height: 1px; background: #DCE3DD"></span>OR SEND VIA INSTAPAY<span style="flex: 1; height: 1px; background: #DCE3DD"></span>
+          </div>
+          <dl style="margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+            <div style="display: flex; justify-content: space-between; gap: 10px"><dt style="color: #5A6B67">Bank</dt><dd style="margin: 0; font-weight: 700; text-align: right">UnionBank of the Philippines</dd></div>
+            <div style="display: flex; justify-content: space-between; gap: 10px"><dt style="color: #5A6B67">Account name</dt><dd style="margin: 0; font-weight: 700; text-align: right">[Account name]</dd></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
+              <dt style="color: #5A6B67">Account no.</dt>
+              <dd style="margin: 0; display: flex; align-items: center; gap: 8px">
+                <span style="font-weight: 800; font-variant-numeric: tabular-nums">[Account number]</span>
+                <button type="button" onClick="{{copyAcct}}" style="min-height: 36px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #356B68; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">{{acctBtn}}</button>
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- 2. UPLOAD RECEIPT -->
+        <section aria-labelledby="up-h" style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <h2 id="up-h" style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 22px">2. Upload your receipt</h2>
+            <p style="margin: 0; font-size: 14px; color: #5A6B67">Take a screenshot of the "Transfer complete" screen in your app. We'll read the details for you.</p>
+          </div>
+
+          <!-- empty dropzone -->
+          <template data-sc="if" value="{{noReceipts}}" hint-placeholder-val="{{ true }}">
+            <label for="p-file" style="position: relative; min-height: 150px; padding: 20px; border-radius: 16px; border: 2px dashed #B7C4BB; background: #F8F7F1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; cursor: pointer; box-sizing: border-box">
+              <input id="p-file" type="file" accept="image/*" onChange="{{onAddFile}}" style="position: absolute; width: 1px; height: 1px; opacity: 0">
+              <span aria-hidden="true" style="width: 52px; height: 52px; border-radius: 50%; background: #D7E0D9; color: #356B68; display: flex; align-items: center; justify-content: center">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+              </span>
+              <span style="font-size: 17px; font-weight: 800; color: #356B68">Choose your receipt screenshot</span>
+              <span style="font-size: 13px; color: #5A6B67">From GCash, Maya or your bank app</span>
+            </label>
+          </template>
+
+          <!-- one card per receipt -->
+          <template data-sc="for" list="{{receipts}}" as="r" hint-placeholder-count="1">
+            <div style="border-radius: 16px; border: 1.5px solid #DCE3DD; padding: 14px; display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+                <span style="display: flex; align-items: center; gap: 10px; min-width: 0">
+                  <span aria-hidden="true" style="flex: none; width: 32px; height: 40px; border-radius: 6px; background: #E6E0F3; border: 1px solid #D3CBE6"></span>
+                  <span style="display: flex; flex-direction: column; min-width: 0">
+                    <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.1em; color: #356B68">RECEIPT {{r.num}}</span>
+                    <span style="font-size: 14px; font-weight: 700; overflow-wrap: anywhere">{{r.fileName}}</span>
+                  </span>
+                </span>
+                <button type="button" onClick="{{r.remove}}" aria-label="Remove receipt {{r.num}}" style="flex: none; min-height: 40px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #356B68; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">Remove</button>
+              </div>
+
+              <template data-sc="if" value="{{r.reading}}" hint-placeholder-val="{{ false }}">
+                <div role="status" style="padding: 16px; border-radius: 12px; background: #EDF1EC; display: flex; flex-direction: column; align-items: center; gap: 10px">
+                  <div aria-hidden="true" style="width: 160px; height: 8px; border-radius: 999px; background: #DCE3DD; overflow: hidden"><div style="width: 60%; height: 100%; border-radius: 999px; background: {{accent}}"></div></div>
+                  <span style="font-size: 15px; font-weight: 800">Reading your receipt…</span>
+                </div>
+              </template>
+
+              <template data-sc="if" value="{{r.done}}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-direction: column; gap: 10px">
+                  <template data-sc="if" value="{{r.failed}}" hint-placeholder-val="{{ false }}">
+                    <p role="alert" style="margin: 0; padding: 10px 12px; border-radius: 10px; background: #FFF4E5; color: #7A4A0B; font-size: 14px; font-weight: 700">We couldn't read this one. Please type the details, or try a sharper screenshot.</p>
+                  </template>
+                  <template data-sc="if" value="{{r.readOk}}" hint-placeholder-val="{{ true }}">
+                    <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #2F5A47">
+                      <span aria-hidden="true" style="width: 20px; height: 20px; border-radius: 50%; background: #2F7A5A; color: #FFFFFF; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center">✓</span>
+                      GCash · InstaPay · sent to Kumbida's UnionBank
+                    </span>
+                  </template>
+                  <div style="display: flex; flex-direction: column; gap: 6px">
+                    <label for="{{r.refId}}" style="font-size: 14px; font-weight: 800">InstaPay reference <span style="font-weight: 600; color: #5A6B67">(GCash: "InstaPay Invoice No.")</span></label>
+                    <input id="{{r.refId}}" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 5893610" value="{{r.ref}}" onChange="{{r.onRef}}" style="{{r.refStyle}}">
+                    <template data-sc="if" value="{{r.refLong}}" hint-placeholder-val="{{ false }}">
+                      <p role="alert" style="margin: 0; padding: 10px 12px; border-radius: 10px; background: #FFF4E5; color: #7A4A0B; font-size: 14px; font-weight: 700">That looks like your app's own Ref No. Please use the InstaPay number (GCash: "InstaPay Invoice No.", usually 7 digits).</p>
+                    </template>
+                    <template data-sc="if" value="{{r.refDup}}" hint-placeholder-val="{{ false }}">
+                      <p role="alert" style="margin: 0; font-size: 14px; font-weight: 700; color: #2B5653">This reference is already on another receipt. Each payment has its own number.</p>
+                    </template>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+                    <div style="display: flex; flex-direction: column; gap: 6px">
+                      <label for="{{r.amtId}}" style="font-size: 14px; font-weight: 800">Amount</label>
+                      <input id="{{r.amtId}}" type="text" inputmode="decimal" value="{{r.amount}}" onChange="{{r.onAmount}}" style="{{r.amtStyle}}">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px">
+                      <label for="{{r.whenId}}" style="font-size: 14px; font-weight: 800">Paid on</label>
+                      <input id="{{r.whenId}}" type="datetime-local" value="{{r.when}}" onChange="{{r.onWhen}}" style="{{r.whenStyle}}">
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </template>
+
+          <!-- running total -->
+          <template data-sc="if" value="{{hasReceipts}}" hint-placeholder-val="{{ false }}">
+            <div style="{{totalBoxStyle}}">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px">
+                <span style="font-size: 14px; font-weight: 800">Total paid</span>
+                <span style="font-size: 20px; font-weight: 800; font-variant-numeric: tabular-nums">₱{{totalStr}} <span style="font-size: 14px; font-weight: 700; color: #5A6B67">of ₱499.00</span></span>
+              </div>
+              <template data-sc="if" value="{{isShort}}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: 10px">
+                  <p style="margin: 0; font-size: 14px; font-weight: 700; color: #7A4A0B">₱{{remainingStr}} still to pay. Send it the same way, then add that receipt here.</p>
+                  <label for="p-more" style="position: relative; min-height: 50px; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; border: 2px dashed #C77A16; background: #FFFFFF; color: #7A4A0B; font-size: 15px; font-weight: 800; cursor: pointer">
+                    <input id="p-more" type="file" accept="image/*" onChange="{{onAddFile}}" style="position: absolute; width: 1px; height: 1px; opacity: 0">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                    Add another receipt
+                  </label>
+                </div>
+              </template>
+              <template data-sc="if" value="{{isExact}}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; font-size: 14px; font-weight: 700; color: #2F5A47">✓ Fully paid. Thank you!</p>
+              </template>
+              <template data-sc="if" value="{{isOver}}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; font-size: 14px; font-weight: 700; color: #7A4A0B">You've sent ₱{{overStr}} more than your package. We'll return the extra after we confirm your payment.</p>
+              </template>
+            </div>
+          </template>
+
+          <template data-sc="if" value="{{hasReceipts}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 14px">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label for="p-name" style="font-size: 14px; font-weight: 800">Name on the account you paid from</label>
+                <input id="p-name" type="text" autocomplete="off" placeholder="e.g. JUAN DELA CRUZ" value="{{payer}}" onChange="{{onPayer}}" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+                <span style="font-size: 13px; color: #5A6B67">Your receipt shows our name, not yours, so please type it. It's fine if a parent or partner paid.</span>
+              </div>
+              <button type="button" onClick="{{submit}}" disabled="{{submitDisabled}}" aria-describedby="p-todo" style="{{submitStyle}}">{{submitLabel}}</button>
+              <template data-sc="if" value="{{submitDisabled}}" hint-placeholder-val="{{ true }}">
+                <div id="p-todo" style="padding: 12px 14px; border-radius: 12px; background: #EDF1EC; font-size: 14px; display: flex; flex-direction: column; gap: 4px">
+                  <span style="font-weight: 800; color: #294B49">To submit, please:</span>
+                  <template data-sc="for" list="{{missing}}" as="m" hint-placeholder-count="2">
+                    <span style="display: flex; gap: 8px; color: #34504D"><span aria-hidden="true" style="color: #356B68; font-weight: 800">○</span>{{m.label}}</span>
+                  </template>
+                </div>
+              </template>
+            </div>
+          </template>
+
+          <p style="margin: 0; text-align: center; font-size: 13px; color: #5A6B67">Problem paying? Message us on Facebook and mention order KMB-0482.</p>
+        </section>
+      </div>
+    </template>
+
+    <!-- ===== CHECKING ===== -->
+    <template data-sc="if" value="{{isChecking}}" hint-placeholder-val="{{ false }}">
+      <section style="background: #FFFFFF; border: 1.5px solid #DCE3DD; border-radius: 22px; padding: 24px 20px; display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span aria-hidden="true" style="flex: none; width: 48px; height: 48px; border-radius: 50%; background: #FFF4E5; color: #9A5B0C; display: flex; align-items: center; justify-content: center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <div style="display: flex; flex-direction: column">
+            <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 24px">We're checking your payment</h2>
+            <span style="font-size: 14px; color: #5A6B67">Usually within [X hours]. This page updates on its own.</span>
+          </div>
+        </div>
+        <dl style="margin: 0; padding: 14px; border-radius: 14px; background: #EDF1EC; display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+          <template data-sc="for" list="{{receipts}}" as="r" hint-placeholder-count="1">
+            <div style="display: flex; justify-content: space-between; gap: 10px"><dt style="color: #5A6B67">Receipt {{r.num}} · ref {{r.ref}}</dt><dd style="margin: 0; font-weight: 800">₱{{r.amount}}</dd></div>
+          </template>
+          <div style="display: flex; justify-content: space-between; gap: 10px; padding-top: 8px; border-top: 1px solid #DCE3DD"><dt style="font-weight: 800">Total</dt><dd style="margin: 0; font-weight: 800">₱{{totalStr}}</dd></div>
+          <div style="display: flex; justify-content: space-between; gap: 10px"><dt style="color: #5A6B67">Paid by</dt><dd style="margin: 0; font-weight: 800; text-align: right">{{payerShown}}</dd></div>
+        </dl>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <p style="margin: 0; font-size: 15px">Once we confirm your payment, you'll be able to:</p>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #EDF1EC; color: #5A6B67; font-size: 15px; font-weight: 700">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            Set up your page: details, schedule and photo
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #EDF1EC; color: #5A6B67; font-size: 15px; font-weight: 700">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            Share your invitation link and QR code
+          </div>
+          <p style="margin: 0; font-size: 14px; color: #5A6B67">Keep this link. We'll unlock these here as soon as your payment is confirmed.</p>
+        </div>
+        <button type="button" onClick="{{backToForm}}" style="align-self: center; min-height: 44px; border: 0; background: transparent; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Made a mistake? Edit payment details</button>
+      </section>
+    </template>
+
+    <!-- ===== PAID ===== -->
+    <template data-sc="if" value="{{isPaid}}" hint-placeholder-val="{{ false }}">
+      <section style="background: #FFFFFF; border: 1.5px solid #CFE3D8; border-radius: 22px; padding: 24px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px">
+        <span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #EEF5F1; color: #2F7A5A; display: flex; align-items: center; justify-content: center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+        </span>
+        <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 26px">Payment received</h2>
+        <p style="margin: 0; font-size: 15px; color: #5A6B67">₱499.00 confirmed for order KMB-0482. Thank you!</p>
+        <p style="margin: 0; font-size: 15px">Next, add your event details and photo. Your page goes live once the required details are filled in.</p>
+        <button type="button" style="align-self: stretch; min-height: 54px; border: 0; border-radius: 999px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; cursor: pointer">Set up your page</button>
+      </section>
+    </template>
+
+    <!-- DEMO CONTROLS -->
+    <div style="margin-top: auto; padding: 14px; border-radius: 14px; border: 1.5px dashed #B7C4BB; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.12em; color: #5A6B67">DEMO ONLY · SIMULATE A RECEIPT</span>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <button type="button" onClick="{{simGood}}" style="{{simGoodStyle}}">Good receipt</button>
+        <button type="button" onClick="{{simAmount}}" style="{{simAmountStyle}}">Wrong amount</button>
+        <button type="button" onClick="{{simFail}}" style="{{simFailStyle}}">Can't read</button>
+      </div>
+      <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.12em; color: #5A6B67">DEMO ONLY · WHAT THE ADMIN DOES</span>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <button type="button" onClick="{{demoConfirm}}" style="min-height: 44px; border-radius: 10px; border: 1.5px solid #CFE3D8; background: #EEF5F1; color: #2F5A47; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">Confirm</button>
+        <button type="button" onClick="{{demoReject}}" style="min-height: 44px; border-radius: 10px; border: 1.5px solid #C9D4CC; background: #D7E0D9; color: #356B68; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">Not found</button>
+        <button type="button" onClick="{{demoReset}}" style="min-height: 44px; border-radius: 10px; border: 1.5px solid #DCE3DD; background: #FFFFFF; color: #294B49; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer">Start over</button>
+      </div>
+      <span style="font-size: 12px; color: #5A6B67">Pick a receipt type, then choose any image. With "Wrong amount", the first receipt reads ₱450 and the next one you add reads the ₱49 difference.</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#356B68","options":["#356B68","#294B49","#4A7A5E"]},"$preview":{"width":390,"height":2500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { status: 'form', rejected: false, sim: 'good', receipts: [], nextId: 1, payer: '', tried: false, copied: '' };
+    this.timers = [];
+  }
+  componentWillUnmount() { this.timers.forEach(function (t) { clearTimeout(t); }); }
+  updateReceipt(id, patch) {
+    this.setState({ receipts: this.state.receipts.map(function (r) { return r.id === id ? Object.assign({}, r, patch) : r; }) });
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var accent = this.props.accent ?? '#356B68';
+    var PRICE = 499;
+    var money = function (n) { return (Math.round(n * 100) / 100).toFixed(2); };
+    var parse = function (v) { var n = parseFloat(String(v || '').replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; };
+    var digitsOf = function (v) { return String(v || '').replace(/\D/g, ''); };
+    var total = s.receipts.reduce(function (sum, r) { return sum + (r.phase === 'read' ? parse(r.amount) : 0); }, 0);
+    var remaining = PRICE - total;
+    var anyReading = s.receipts.some(function (r) { return r.phase === 'reading'; });
+    var refCounts = {};
+    s.receipts.forEach(function (r) { var d = digitsOf(r.ref); if (d.length >= 6) refCounts[d] = (refCounts[d] || 0) + 1; });
+    var field = function (border, bg) { return 'min-height: 50px; padding: 0 12px; border-radius: 12px; border: 1.5px solid ' + border + '; background: ' + bg + '; font-size: 16px; font-weight: 700; color: #294B49; width: 100%; box-sizing: border-box'; };
+    var missing = [];
+    var receipts = s.receipts.map(function (r, i) {
+      var d = digitsOf(r.ref);
+      var refLong = d.length >= 10, refOk = d.length >= 6 && d.length <= 9, refDup = refOk && refCounts[d] > 1;
+      var read = r.phase === 'read', ok = read && !r.failed;
+      if (read && (!refOk || refDup)) missing.push({ label: 'Add the InstaPay reference on receipt ' + (i + 1) });
+      if (read && !parse(r.amount)) missing.push({ label: 'Add the amount on receipt ' + (i + 1) });
+      if (read && !r.when) missing.push({ label: 'Add the date paid on receipt ' + (i + 1) });
+      var bg = ok ? '#F5FAF7' : '#FFFFFF';
+      return {
+        num: i + 1, fileName: r.fileName,
+        reading: r.phase === 'reading', done: read, failed: read && r.failed, readOk: ok,
+        ref: r.ref, amount: r.amount, when: r.when,
+        refId: 'ref-' + r.id, amtId: 'amt-' + r.id, whenId: 'when-' + r.id,
+        refLong: refLong, refDup: refDup,
+        refStyle: field(refLong || refDup ? '#D08A2E' : refOk ? '#2F7A5A' : '#BFCBC2', bg) + '; font-size: 18px; letter-spacing: 0.06em',
+        amtStyle: field(parse(r.amount) ? '#2F7A5A' : '#BFCBC2', bg),
+        whenStyle: field('#BFCBC2', bg) + '; font-size: 14px; font-weight: 400',
+        onRef: function (e) { self.updateReceipt(r.id, { ref: e.target.value }); },
+        onAmount: function (e) { self.updateReceipt(r.id, { amount: e.target.value }); },
+        onWhen: function (e) { self.updateReceipt(r.id, { when: e.target.value }); },
+        remove: function () { self.setState({ receipts: self.state.receipts.filter(function (x) { return x.id !== r.id; }) }); }
+      };
+    });
+    if (anyReading) missing.push({ label: 'Wait while we read your receipt' });
+    if (!s.payer.trim()) missing.push({ label: 'Type the name on the account you paid from' });
+    if (s.receipts.length && !anyReading && remaining > 0.004) missing.push({ label: 'Add a receipt for the remaining ₱' + money(remaining) });
+    var stepNum = s.status === 'paid' ? 2 : 1;
+    var stepStyle = function (n) {
+      var b = 'padding: 8px 10px; border-radius: 10px; font-size: 13px; font-weight: 700; display: flex; gap: 6px; align-items: center; ';
+      if (n < stepNum) return b + 'background: #EEF5F1; color: #2F5A47;';
+      if (n === stepNum) return b + 'background: #D7E0D9; color: #356B68; box-shadow: inset 0 0 0 1.5px ' + accent + ';';
+      return b + 'background: #EDF1EC; color: #5A6B67;';
+    };
+    var simStyle = function (on) { return 'min-height: 44px; border-radius: 10px; font-family: Nunito, sans-serif; font-size: 13px; font-weight: 800; cursor: pointer; ' + (on ? 'background: #294B49; color: #FFFFFF; border: 1.5px solid #294B49;' : 'background: #FFFFFF; color: #294B49; border: 1.5px solid #DCE3DD;'); };
+    var copy = function (text, key) {
+      try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
+      self.setState({ copied: key });
+    };
+    var isShort = s.receipts.length > 0 && !anyReading && remaining > 0.004;
+    var isOver = !anyReading && remaining < -0.004;
+    return {
+      accent: accent,
+      isForm: s.status === 'form', isChecking: s.status === 'checking', isPaid: s.status === 'paid',
+      showRejectNote: s.status === 'form' && s.rejected,
+      last6: (function () { var r0 = s.receipts[0]; var d = r0 ? digitsOf(r0.ref) : ''; return d.length >= 6 ? d.slice(-6) : '—'; })(),
+      step1Style: stepStyle(1), step2Style: stepStyle(2), step3Style: stepStyle(3),
+      amountBtn: s.copied === 'amt' ? 'Copied' : 'Copy amount',
+      acctBtn: s.copied === 'acct' ? 'Copied' : 'Copy',
+      copyAmount: function () { copy('499.00', 'amt'); },
+      copyAcct: function () { copy('[Account number]', 'acct'); },
+      noReceipts: s.receipts.length === 0, hasReceipts: s.receipts.length > 0,
+      receipts: receipts,
+      totalStr: money(total), remainingStr: money(Math.max(remaining, 0)), overStr: money(Math.max(-remaining, 0)),
+      isShort: isShort, isExact: s.receipts.length > 0 && !anyReading && Math.abs(remaining) <= 0.004, isOver: isOver,
+      totalBoxStyle: 'padding: 14px; border-radius: 14px; display: flex; flex-direction: column; gap: 10px; ' + (isShort || isOver ? 'background: #FFF8EE; border: 1.5px solid #F0D3A6;' : 'background: #F5FAF7; border: 1.5px solid #CFE3D8;'),
+      payer: s.payer, payerShown: s.payer || '—',
+      onPayer: function (e) { self.setState({ payer: e.target.value }); },
+      submitLabel: s.receipts.length > 1 ? 'Submit ' + s.receipts.length + ' receipts' : 'Submit payment',
+      onAddFile: function (e) {
+        var f = e.target.files && e.target.files[0];
+        if (!f) return;
+        var id = self.state.nextId;
+        var before = self.state.receipts.reduce(function (sum, r) { return sum + parse(r.amount); }, 0);
+        self.setState({ nextId: id + 1, tried: false, receipts: self.state.receipts.concat([{ id: id, fileName: f.name, phase: 'reading', failed: false, ref: '', amount: '', when: '' }]) });
+        e.target.value = '';
+        self.timers.push(setTimeout(function () {
+          var sim = self.state.sim, first = before === 0;
+          if (sim === 'fail') { self.updateReceipt(id, { phase: 'read', failed: true }); return; }
+          var amt = sim === 'amount' ? (first ? 450 : Math.max(PRICE - before, 0)) : (first ? PRICE : Math.max(PRICE - before, 0));
+          self.updateReceipt(id, { phase: 'read', failed: false, ref: first ? '5893610' : '5893877', amount: money(amt), when: first ? '2026-11-18T14:01' : '2026-11-18T14:20' });
+        }, 1400));
+      },
+      missing: missing,
+      submitDisabled: missing.length > 0,
+      submitStyle: 'min-height: 56px; border: 0; border-radius: 999px; font-family: Nunito, sans-serif; font-size: 17px; font-weight: 800; ' + (missing.length > 0 ? 'background: #E3E7E2; color: #6F7C78; cursor: not-allowed;' : 'background: ' + accent + '; color: #FFFFFF; cursor: pointer; box-shadow: 0 8px 20px rgba(41, 75, 73, 0.25);'),
+      submit: function () {
+        if (missing.length) return;
+        self.setState({ status: 'checking', rejected: false });
+      },
+      backToForm: function () { self.setState({ status: 'form' }); },
+      simGoodStyle: simStyle(s.sim === 'good'), simAmountStyle: simStyle(s.sim === 'amount'), simFailStyle: simStyle(s.sim === 'fail'),
+      simGood: function () { self.setState({ sim: 'good' }); },
+      simAmount: function () { self.setState({ sim: 'amount' }); },
+      simFail: function () { self.setState({ sim: 'fail' }); },
+      demoConfirm: function () { self.setState({ status: 'paid' }); },
+      demoReject: function () { self.setState({ status: 'form', rejected: true }); },
+      demoReset: function () { self.timers.forEach(function (t) { clearTimeout(t); }); self.timers = []; self.setState({ status: 'form', rejected: false, receipts: [], payer: '', tried: false, copied: '' }); }
+    };
+  }
+}
+</script></template>
+
+</body>
+</html>

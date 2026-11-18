@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>City Lights invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0}
+body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh;min-height:100dvh}
+body.card{align-items:center;background:#E9E5DA}
+body.card>div:first-child{border-radius:24px;box-shadow:0 24px 60px rgba(30,56,54,.25)}
+</style>
+</head>
+<body><div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #0E1B2C; color: #EAF2FF; font-family: Inter, sans-serif; display: flex; flex-direction: column; align-items: center; text-align: center; box-sizing: border-box; padding: 70px 30px 0">
+  <svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+    <circle cx="320" cy="90" r="30" fill="#F4E9C9" opacity="0.9"/>
+    <g fill="#F2B544" opacity="0.12"><circle cx="60" cy="160" r="30"/><circle cx="110" cy="230" r="18"/><circle cx="350" cy="320" r="24"/><circle cx="30" cy="420" r="16"/></g>
+    <g fill="#16263D">
+      <rect x="0" y="690" width="50" height="160"/><rect x="46" y="640" width="44" height="210"/><rect x="88" y="700" width="40" height="150"/>
+      <rect x="126" y="610" width="56" height="240"/><rect x="180" y="670" width="38" height="180"/><rect x="216" y="630" width="50" height="220"/>
+      <rect x="264" y="690" width="42" height="160"/><rect x="304" y="650" width="50" height="200"/><rect x="352" y="700" width="40" height="150"/>
+      <rect x="150" y="590" width="8" height="22"/>
+    </g>
+    <g fill="#F2B544">
+      <rect x="56" y="656" width="6" height="8"/><rect x="72" y="676" width="6" height="8"/><rect x="56" y="700" width="6" height="8"/>
+      <rect x="138" y="630" width="6" height="8"/><rect x="160" y="650" width="6" height="8"/><rect x="138" y="680" width="6" height="8"/><rect x="160" y="710" width="6" height="8"/>
+      <rect x="226" y="650" width="6" height="8"/><rect x="248" y="676" width="6" height="8"/><rect x="226" y="710" width="6" height="8"/>
+      <rect x="314" y="670" width="6" height="8"/><rect x="334" y="700" width="6" height="8"/><rect x="10" y="710" width="6" height="8"/><rect x="98" y="720" width="6" height="8"/>
+    </g>
+  </svg>
+
+  <p style="position: relative; margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.3em; color: #F2B544">ONE NIGHT IN THE CITY</p>
+  <h1 style="position: relative; margin: 12px 0 0; display: flex; flex-direction: column; align-items: center; line-height: 1; font-weight: 400">
+    <span style="font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 64px; letter-spacing: 0.02em">THE CELEBRANT</span>
+    <span style="margin-top: 6px; font-family: 'Big Shoulders Display', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: 0.14em; color: #F2B544">TURNS 21</span>
+  </h1>
+
+  <div style="position: relative; margin-top: 22px; width: 220px; height: 240px; border-radius: 14px; border: 2px solid #F2B544; padding: 6px; box-sizing: border-box">
+    <div style="width: 100%; height: 100%; border-radius: 9px; background: #1A2C45; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #B9C7DD">Celebrant's photo</div>
+  </div>
+
+  <p style="position: relative; margin: 20px 0 0; font-size: 16px">Twenty-one and ready for the city lights. Come celebrate with us.</p>
+  <div style="position: relative; margin-top: 12px; display: flex; flex-direction: column; gap: 2px; ">
+    <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.08em">[Day], [Month Day, Year] · [Time]</span>
+    <span style="font-size: 14px; color: #B9C7DD">[Venue name], [City]</span>
+  </div>
+  <span aria-disabled="true" style="position: relative; margin-top: 18px; min-height: 48px; display: inline-flex; align-items: center; padding: 0 30px; text-decoration: none; border-radius: 999px; background: #F2B544; color: #0E1B2C; font-size: 15px; font-weight: 600; letter-spacing: 0.06em">RSVP by [Date]</span>
+</div>
+<script>
+(function () {
+  if (window.self !== window.top) return;
+  var b = document.body, c = b.firstElementChild;
+  function fit() {
+    var w = innerWidth, h = innerHeight, phone = w < 600;
+    b.classList.toggle("card", !phone);
+    c.style.zoom = phone ? w / 390 : Math.min((w * 0.94) / 390, (h * 0.94) / 844);
+    var bg = getComputedStyle(c).backgroundColor;
+    b.style.background = phone && bg !== "rgba(0, 0, 0, 0)" ? bg : "";
+  }
+  fit();
+  addEventListener("resize", fit);
+})();
+</script>
+</body>
+</html>

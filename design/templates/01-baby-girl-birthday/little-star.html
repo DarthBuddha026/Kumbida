@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Little Star invitation</title>
+<script src="../../runtime/dc-lite.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&amp;family=Nunito:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FCE8EB; color: #5A2633; font-family: Nunito, sans-serif; display: flex; flex-direction: column; align-items: center; text-align: center; box-sizing: border-box; padding: 64px 30px 0">
+  <svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+    <path d="M60 0 V60" stroke="#E6B8C2" stroke-width="1.5"/><path d="M60 60 l7 14 15 2 -11 10 3 15 -14 -7 -14 7 3 -15 -11 -10 15 -2 Z" fill="{{star}}"/>
+    <path d="M330 0 V110" stroke="#E6B8C2" stroke-width="1.5"/><path d="M330 110 l5 10 11 1.5 -8 7.5 2 11 -10 -5 -10 5 2 -11 -8 -7.5 11 -1.5 Z" fill="{{star}}"/>
+    <path d="M290 0 V36" stroke="#E6B8C2" stroke-width="1.5"/><circle cx="290" cy="42" r="6" fill="#F6D58E"/>
+    <g fill="#F6D58E"><circle cx="40" cy="380" r="3"/><circle cx="352" cy="330" r="2.5"/><circle cx="54" cy="620" r="2.5"/><circle cx="340" cy="600" r="3"/></g>
+    <path d="M0 844 V770 C 70 740, 130 790, 200 765 S 330 740, 390 770 V844 Z" fill="#F7D3DA"/>
+  </svg>
+
+  <p style="position: relative; margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.26em; color: #8E3446">YOU'RE INVITED</p>
+  <h1 style="position: relative; margin: 12px 0 0; display: flex; flex-direction: column; line-height: 1; font-family: Fraunces, serif; font-weight: 500">
+    <span style="font-size: 50px; font-style: italic; color: #8E3446">Birthday Star</span>
+    <span style="margin-top: 8px; font-size: 22px; font-weight: 600">turns one</span>
+  </h1>
+
+  <div style="position: relative; margin-top: 26px; width: 200px; height: 200px; border-radius: 50%; border: 6px solid #FFFFFF; box-shadow: 0 0 0 3px {{star}}; background: #F6DCE2; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #8E3446">Celebrant's photo</div>
+
+  <p style="position: relative; margin: 24px 0 0; font-family: Fraunces, serif; font-style: italic; font-size: 20px">Twinkle, twinkle, our little star is one! Come celebrate with us.</p>
+  <div style="position: relative; margin-top: 16px; display: flex; flex-direction: column; gap: 2px">
+    <span style="font-size: 14px; font-weight: 800; letter-spacing: 0.14em">[DAY] · [MONTH DAY, YEAR]</span>
+    <span style="font-size: 16px; font-weight: 600">[Time] · [Venue name], [City]</span>
+  </div>
+  <a href="#" style="position: relative; margin-top: 20px; min-height: 48px; display: inline-flex; align-items: center; padding: 0 30px; border-radius: 999px; background: #B5475C; color: #FFFFFF; font-size: 15px; font-weight: 800; text-decoration: none">RSVP by [Date]</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"star":{"editor":"color","default":"#D9CFF0","options":["#D9CFF0","#F6D58E","#BFE3D6"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { star: this.props.star ?? '#D9CFF0' }; }
+}
+</script></template>
+
+</body>
+</html>

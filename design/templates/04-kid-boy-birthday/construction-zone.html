@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Construction Zone invitation</title>
+<script src="../../runtime/dc-lite.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Barlow:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FFF5D6; color: #2B2B2B; font-family: Barlow, sans-serif; display: flex; flex-direction: column; align-items: center; text-align: center; box-sizing: border-box; padding: 70px 28px 0">
+  <svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+    <defs><pattern id="haz" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="28" fill="#2B2B2B"/><rect x="14" width="14" height="28" fill="{{accent}}"/></pattern></defs>
+    <rect width="390" height="28" fill="url(#haz)"/>
+    <path d="M0 844 V744 C 60 726, 120 750, 190 736 S 320 720, 390 740 V844 Z" fill="#C9A06A"/>
+    <path d="M0 844 V786 C 90 774, 220 796, 390 780 V844 Z" fill="#A87D4A"/>
+    <g transform="translate(210 640)">
+      <rect x="0" y="40" width="110" height="44" rx="6" fill="{{accent}}"/>
+      <rect x="54" y="6" width="50" height="40" rx="6" fill="{{accent}}"/>
+      <rect x="62" y="12" width="34" height="24" rx="3" fill="#BFE3F5"/>
+      <rect x="-4" y="84" width="122" height="26" rx="13" fill="#2B2B2B"/>
+      <g fill="#6B6B6B"><circle cx="12" cy="97" r="8"/><circle cx="40" cy="97" r="8"/><circle cx="72" cy="97" r="8"/><circle cx="102" cy="97" r="8"/></g>
+      <path d="M10 46 L-30 0 L-60 30" fill="none" stroke="{{accent}}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-60 30 L-80 30 L-74 54 L-48 54 Z" fill="#2B2B2B"/>
+    </g>
+    <g transform="translate(46 700)"><path d="M0 50 L18 0 L36 50 Z" fill="#F28C28"/><rect x="9" y="18" width="18" height="6" fill="#FFFFFF"/><rect x="5" y="32" width="26" height="6" fill="#FFFFFF"/><rect x="-6" y="48" width="48" height="8" rx="2" fill="#2B2B2B"/></g>
+  </svg>
+
+  <p style="position: relative; margin: 0; font-family: Bungee, sans-serif; font-size: 13px; letter-spacing: 0.12em; padding: 6px 12px; background: #2B2B2B; color: {{accent}}">UNDER CONSTRUCTION</p>
+  <h1 style="position: relative; margin: 12px 0 0; display: flex; flex-direction: column; align-items: center; line-height: 1; font-weight: 400">
+    <span style="margin-top: 6px; font-family: Bungee, sans-serif; font-size: 38px">BIRTHDAY STAR</span>
+    <span style="margin-top: 8px; font-size: 22px; font-weight: 800; letter-spacing: 0.06em">IS TURNING 5</span>
+  </h1>
+
+  <div style="position: relative; margin-top: 24px; width: 210px; height: 210px; border-radius: 12px; border: 6px solid #2B2B2B; box-shadow: 6px 6px 0 {{accent}}; background: #F3E2AE; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #5A4A1E">Celebrant's photo</div>
+
+  <p style="position: relative; margin: 20px 0 0; font-size: 18px; font-weight: 600">Hard hats on! We’re building a big birthday bash.</p>
+  <div style="position: relative; margin-top: 12px; display: flex; flex-direction: column; gap: 2px; ">
+    <span style="font-size: 16px; font-weight: 800">[Day], [Month Day, Year] · [Time]</span>
+    <span style="font-size: 16px; font-weight: 600">[Venue name], [City]</span>
+  </div>
+  <a href="#" style="position: relative; margin-top: 18px; min-height: 48px; display: inline-flex; align-items: center; padding: 0 30px; text-decoration: none; border-radius: 8px; background: #2B2B2B; color: #FFFFFF; font-family: Bungee, sans-serif; font-size: 15px; letter-spacing: 0.04em">RSVP BY [DATE]</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#F5B800","options":["#F5B800", "#F28C28", "#4FA3D1"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { accent: this.props.accent ?? '#F5B800' }; }
+}
+</script></template>
+
+</body>
+</html>

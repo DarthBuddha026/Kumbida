@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Garden Vows invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0}
+body{display:flex;justify-content:center;align-items:flex-start;min-height:100vh;min-height:100dvh}
+body.card{align-items:center;background:#E9E5DA}
+body.card>div:first-child{border-radius:24px;box-shadow:0 24px 60px rgba(30,56,54,.25)}
+</style>
+</head>
+<body><div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #E8F0EA; color: #23402F; font-family: Nunito, sans-serif; display: flex; flex-direction: column; align-items: center; text-align: center; box-sizing: border-box; padding: 120px 34px 0">
+  <svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+    <g id="vine">
+      <path d="M0 90 C 80 60, 150 100, 230 70 S 340 40, 390 60" fill="none" stroke="#7FA58B" stroke-width="2"/>
+      <g fill="#9CBFA7">
+        <ellipse cx="40" cy="74" rx="14" ry="6" transform="rotate(-30 40 74)"/><ellipse cx="90" cy="82" rx="14" ry="6" transform="rotate(25 90 82)"/>
+        <ellipse cx="150" cy="86" rx="14" ry="6" transform="rotate(-20 150 86)"/><ellipse cx="210" cy="74" rx="14" ry="6" transform="rotate(30 210 74)"/>
+        <ellipse cx="270" cy="62" rx="14" ry="6" transform="rotate(-25 270 62)"/><ellipse cx="330" cy="52" rx="14" ry="6" transform="rotate(20 330 52)"/>
+      </g>
+      <g fill="#FFFFFF"><circle cx="120" cy="80" r="5"/><circle cx="240" cy="66" r="5"/><circle cx="360" cy="55" r="4"/></g>
+    </g>
+    <use href="#vine" transform="translate(390 844) rotate(180)"/>
+  </svg>
+
+  <p style="position: relative; margin: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.28em">SAVE THE DATE</p>
+  <h1 style="position: relative; margin: 14px 0 0; display: flex; flex-direction: column; line-height: 1.02; font-family: Fraunces, serif; font-weight: 600">
+    <span style="font-size: 48px">The Happy</span>
+    <span style="font-size: 48px; font-style: italic; font-weight: 500; color: #2F5A47">Couple</span>
+  </h1>
+  <p style="position: relative; margin: 14px 0 0; font-size: 16px">are getting married</p>
+
+  <div style="position: relative; margin-top: 24px; width: 220px; height: 260px; border-radius: 110px 110px 16px 16px; border: 6px solid #FFFFFF; background: #D3E3D8; display: flex; align-items: center; justify-content: center; font-family: Fraunces, serif; font-style: italic; font-size: 16px; color: #2F5A47">Couple's photo</div>
+
+  <div style="position: relative; margin-top: 24px; display: flex; flex-direction: column; gap: 2px">
+    <span style="font-family: Fraunces, serif; font-size: 22px; font-weight: 600">[Day], [Month Day, Year]</span>
+    <span style="font-size: 15px; font-weight: 500">[Time] · [Venue name], [City]</span>
+  </div>
+  <span aria-disabled="true" style="position: relative; margin-top: 20px; min-height: 48px; display: inline-flex; align-items: center; padding: 0 30px; border-radius: 999px; background: #2F5A47; color: #FFFFFF; font-size: 14px; font-weight: 800; letter-spacing: 0.12em; text-decoration: none">RSVP BY [DATE]</span>
+</div>
+<script>
+(function () {
+  if (window.self !== window.top) return;
+  var b = document.body, c = b.firstElementChild;
+  function fit() {
+    var w = innerWidth, h = innerHeight, phone = w < 600;
+    b.classList.toggle("card", !phone);
+    c.style.zoom = phone ? w / 390 : Math.min((w * 0.94) / 390, (h * 0.94) / 844);
+    var bg = getComputedStyle(c).backgroundColor;
+    b.style.background = phone && bg !== "rgba(0, 0, 0, 0)" ? bg : "";
+  }
+  fit();
+  addEventListener("resize", fit);
+})();
+</script>
+</body>
+</html>

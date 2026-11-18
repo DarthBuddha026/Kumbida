@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black Tie invitation</title>
+<script src="../../runtime/dc-lite.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #121212; color: #F3EBDD; font-family: 'Josefin Sans', sans-serif; display: flex; flex-direction: column; align-items: center; text-align: center; box-sizing: border-box; padding: 120px 34px 0">
+  <svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+    <rect x="18" y="18" width="354" height="808" fill="none" stroke="{{accent}}" stroke-width="1.2"/>
+    <rect x="26" y="26" width="338" height="792" fill="none" stroke="{{accent}}" stroke-width="0.6"/>
+    <g id="fan" stroke="{{accent}}" stroke-width="1" fill="none"><path d="M26 26 L96 26 A70 70 0 0 1 26 96 Z"/><path d="M26 26 L80 40"/><path d="M26 26 L66 60"/><path d="M26 26 L40 80"/><path d="M26 26 L74 26 A48 48 0 0 1 26 74"/></g>
+    <use href="#fan" transform="translate(390 0) scale(-1 1)"/>
+    <use href="#fan" transform="translate(0 844) scale(1 -1)"/>
+    <use href="#fan" transform="translate(390 844) scale(-1 -1)"/>
+    <g transform="translate(195 82)" fill="{{accent}}"><path d="M-30 -12 L-4 -2 L-4 2 L-30 12 Z"/><path d="M30 -12 L4 -2 L4 2 L30 12 Z"/><rect x="-6" y="-6" width="12" height="12" rx="2"/></g>
+  </svg>
+
+  <p style="position: relative; margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.36em; color: {{accent}}">BLACK TIE CELEBRATION</p>
+  <h1 style="position: relative; margin: 12px 0 0; display: flex; flex-direction: column; align-items: center; line-height: 1; font-weight: 400">
+    <span style="font-family: 'Poiret One', sans-serif; font-size: 50px">The Celebrant</span>
+    <span style="margin-top: 12px; font-size: 14px; font-weight: 600; letter-spacing: 0.4em">TURNS TWENTY-ONE</span>
+  </h1>
+
+  <div style="position: relative; margin-top: 28px; width: 200px; height: 250px; border: 1.5px solid {{accent}}; padding: 8px; box-sizing: border-box">
+    <div style="width: 100%; height: 100%; background: #1F1F1F; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #BDB3A2">Celebrant's photo</div>
+  </div>
+
+  <p style="position: relative; margin: 20px 0 0; font-family: 'Poiret One', sans-serif; font-size: 19px">An evening of good company, fine food and a toast to twenty-one.</p>
+  <div style="position: relative; margin-top: 12px; display: flex; flex-direction: column; gap: 2px; ">
+    <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase">[Day], [Month Day, Year] · [Time]</span>
+    <span style="font-size: 15px">[Venue name], [City]</span>
+  </div>
+  <a href="#" style="position: relative; margin-top: 18px; min-height: 48px; display: inline-flex; align-items: center; padding: 0 30px; text-decoration: none; border-radius: 2px; background: {{accent}}; color: #121212; font-size: 13px; font-weight: 700; letter-spacing: 0.24em">RSVP BY [DATE]</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#C9A45C","options":["#C9A45C", "#C9D3E6", "#B87333"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { accent: this.props.accent ?? '#C9A45C' }; }
+}
+</script></template>
+
+</body>
+</html>

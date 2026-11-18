@@ -1,0 +1,196 @@
+{
+  "pages": [
+    {
+      "file": "pages/Main.html",
+      "name": "Landing page",
+      "about": "Public website home: hero, how it works, designs gallery with preview modal, packages, FAQ, contact."
+    },
+    {
+      "file": "pages/Booking.html",
+      "name": "Booking page (/book)",
+      "about": "Package, event, design picker with preview, contact details, disabled Send with to-do list, confirmation."
+    },
+    {
+      "file": "pages/AdminLogin.html",
+      "name": "Admin log-in",
+      "about": "Email + password with optional 2-step code (demo code 123456), forgot password."
+    },
+    {
+      "file": "pages/AdminInvite.html",
+      "name": "Admin invite sign-up",
+      "about": "Team member creates an account from an invite link."
+    },
+    {
+      "file": "pages/AdminDashboard.html",
+      "name": "Admin dashboard (/admin)",
+      "about": "Overview, events, payments to verify, setup queue, templates (with preview), settings."
+    },
+    {
+      "file": "pages/HostPay.html",
+      "name": "Host link: Pay step",
+      "about": "Phone view: amount, UnionBank QR, receipt upload with automatic reading, submit rules, status."
+    },
+    {
+      "file": "pages/PaymentFlowSim.html",
+      "name": "Flow simulation",
+      "about": "End-to-end demo: client books and pays, admin confirms, host sets up. Reference for the flow, not a real screen."
+    }
+  ],
+  "templates": [
+    {
+      "category": "Baby Girl Birthday",
+      "name": "Royal Princess",
+      "file": "templates/01-baby-girl-birthday/royal-princess.html"
+    },
+    {
+      "category": "Baby Girl Birthday",
+      "name": "Bunny Garden",
+      "file": "templates/01-baby-girl-birthday/bunny-garden.html"
+    },
+    {
+      "category": "Baby Girl Birthday",
+      "name": "Little Star",
+      "file": "templates/01-baby-girl-birthday/little-star.html"
+    },
+    {
+      "category": "Baby Boy Birthday",
+      "name": "Little Sailor",
+      "file": "templates/02-baby-boy-birthday/little-sailor.html"
+    },
+    {
+      "category": "Baby Boy Birthday",
+      "name": "Race Day",
+      "file": "templates/02-baby-boy-birthday/race-day.html"
+    },
+    {
+      "category": "Baby Boy Birthday",
+      "name": "Dino Roar",
+      "file": "templates/02-baby-boy-birthday/dino-roar.html"
+    },
+    {
+      "category": "Kid Girl Birthday",
+      "name": "Unicorn Dreams",
+      "file": "templates/03-kid-girl-birthday/unicorn-dreams.html"
+    },
+    {
+      "category": "Kid Girl Birthday",
+      "name": "Mermaid Lagoon",
+      "file": "templates/03-kid-girl-birthday/mermaid-lagoon.html"
+    },
+    {
+      "category": "Kid Girl Birthday",
+      "name": "Pink Glam",
+      "file": "templates/03-kid-girl-birthday/pink-glam.html"
+    },
+    {
+      "category": "Kid Boy Birthday",
+      "name": "Space Explorer",
+      "file": "templates/04-kid-boy-birthday/space-explorer.html"
+    },
+    {
+      "category": "Kid Boy Birthday",
+      "name": "Construction Zone",
+      "file": "templates/04-kid-boy-birthday/construction-zone.html"
+    },
+    {
+      "category": "Kid Boy Birthday",
+      "name": "Little Boss",
+      "file": "templates/04-kid-boy-birthday/little-boss.html"
+    },
+    {
+      "category": "Teen Girl Birthday",
+      "name": "Disco Glow",
+      "file": "templates/05-teen-girl-birthday/disco-glow.html"
+    },
+    {
+      "category": "Teen Girl Birthday",
+      "name": "Pastel Polaroid",
+      "file": "templates/05-teen-girl-birthday/pastel-polaroid.html"
+    },
+    {
+      "category": "Teen Girl Birthday",
+      "name": "Anime Adventure (Pink)",
+      "file": "templates/05-teen-girl-birthday/anime-adventure-pink.html"
+    },
+    {
+      "category": "Teen Boy Birthday",
+      "name": "Game On",
+      "file": "templates/06-teen-boy-birthday/game-on.html"
+    },
+    {
+      "category": "Teen Boy Birthday",
+      "name": "Street Court",
+      "file": "templates/06-teen-boy-birthday/street-court.html"
+    },
+    {
+      "category": "Teen Boy Birthday",
+      "name": "Anime Adventure (Sky Blue)",
+      "file": "templates/06-teen-boy-birthday/anime-adventure-sky-blue.html"
+    },
+    {
+      "category": "Debut Girl",
+      "name": "Enchanted Rose",
+      "file": "templates/07-debut-girl/enchanted-rose.html"
+    },
+    {
+      "category": "Debut Girl",
+      "name": "Starlit Gala",
+      "file": "templates/07-debut-girl/starlit-gala.html"
+    },
+    {
+      "category": "Debut Boy",
+      "name": "Black Tie",
+      "file": "templates/08-debut-boy/black-tie.html"
+    },
+    {
+      "category": "Debut Boy",
+      "name": "City Lights",
+      "file": "templates/08-debut-boy/city-lights.html"
+    },
+    {
+      "category": "Weddings",
+      "name": "Sampaguita",
+      "file": "templates/09-wedding/sampaguita.html"
+    },
+    {
+      "category": "Weddings",
+      "name": "Garden Vows",
+      "file": "templates/09-wedding/garden-vows.html"
+    },
+    {
+      "category": "Weddings",
+      "name": "Elegant & Minimalist",
+      "file": "templates/09-wedding/elegant-minimalist.html"
+    },
+    {
+      "category": "Weddings",
+      "name": "Bloom",
+      "file": "templates/09-wedding/bloom.html"
+    },
+    {
+      "category": "Weddings",
+      "name": "Golden Hour",
+      "file": "templates/09-wedding/golden-hour.html"
+    },
+    {
+      "category": "Anniversary",
+      "name": "Golden Years",
+      "file": "templates/10-anniversary/golden-years.html"
+    },
+    {
+      "category": "Anniversary",
+      "name": "Love Letters",
+      "file": "templates/10-anniversary/love-letters.html"
+    },
+    {
+      "category": "Reunion",
+      "name": "Family Tree",
+      "file": "templates/11-reunion/family-tree.html"
+    },
+    {
+      "category": "Reunion",
+      "name": "Class Reunion",
+      "file": "templates/11-reunion/class-reunion.html"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+/* Kumbida site design tokens (see Kumbida-design.md §6.6).
+   Use these for the website, booking page, admin and host link.
+   Invitation templates do NOT use these; each template keeps its own colors and fonts. */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  /* Brand palette */
+  --k-cream: #F5F2E9;       /* main color: page background */
+  --k-teal: #356B68;        /* primary buttons (white text), logo mark, links, small labels */
+  --k-deep-teal: #294B49;   /* headings, body text, dark panels */
+  --k-gold: #C5A66B;        /* buttons/badges on dark panels, logo stroke; never small text on cream */
+  --k-mist: #D7E0D9;        /* icon tiles, chips, light text on dark panels, selected ring */
+
+  /* Supporting shades */
+  --k-surface: #FFFFFF;     /* cards on cream */
+  --k-ink: var(--k-deep-teal);
+  --k-ink-muted: #5A6B67;   /* secondary text */
+  --k-ink-on-gold: #1E3836; /* text on gold */
+  --k-darkest: #1E3836;
+  --k-fill: #EDF1EC;        /* light fills, hover */
+  --k-line: #DCE3DD;        /* card borders */
+  --k-line-input: #BFCBC2;  /* input borders */
+  --k-disabled-bg: #E3E7E2;
+  --k-disabled-ink: #6F7C78;
+
+  /* Status (semantic, keep as is) */
+  --k-ok-bg: #EEF5F1;   --k-ok-ink: #2F5A47;
+  --k-warn-bg: #FFF4DE; --k-warn-ink: #7A5410;
+
+  /* Type */
+  --k-font-display: 'Fraunces', serif;
+  --k-font-body: 'Nunito', sans-serif;
+
+  /* Shape and layout */
+  --k-radius-card: 22px;
+  --k-radius-card-sm: 18px;
+  --k-radius-input: 12px;
+  --k-radius-pill: 999px;
+  --k-content-max: 1200px;
+  --k-touch-min: 44px;
+}
+
+body {
+  margin: 0;
+  background: var(--k-cream);
+  color: var(--k-ink);
+  font-family: var(--k-font-body);
+  line-height: 1.5;
+}
+a { color: var(--k-teal); }
+a:hover { color: var(--k-deep-teal); }

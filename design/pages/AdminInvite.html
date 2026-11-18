@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create your admin account</title>
+<script src="../runtime/dc-lite.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F2E9}
+a{color:#356B68}a:hover{color:#294B49}
+input{font-family:Nunito,sans-serif}
+input::placeholder{color:#7E8C88}
+</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="min-height: 980px; display: flex; flex-wrap: wrap; background: #F5F2E9; color: #294B49; font-family: Nunito, sans-serif; line-height: 1.5">
+
+  <aside style="flex: 1 1 420px; min-width: 0; background: #294B49; color: #FFFFFF; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; position: relative; overflow: hidden">
+    <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" style="position: absolute; right: 70px; top: 120px; fill: #5A6B67"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" style="position: absolute; right: 150px; top: 200px; fill: #C5A66B"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+    <a href="Main.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FFFFFF">
+      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: #C5A66B; display: flex; align-items: center; justify-content: center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#294B49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </span>
+      <span style="font-family: Fraunces, serif; font-size: 22px; font-weight: 600">Kumbida</span>
+    </a>
+    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 26em">
+      <p style="margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; color: #C5A66B">YOU'RE INVITED TO THE TEAM</p>
+      <h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 44px; line-height: 1.08; text-wrap: balance">Welcome aboard.</h1>
+      <p style="margin: 0; font-size: 17px; color: #D7E0D9">Create your account to set up events and help hosts with their RSVPs.</p>
+    </div>
+    <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px">
+      <li style="display: flex; align-items: center; gap: 12px"><span style="{{dot1}}">1</span><span style="font-weight: 700">Create your password</span></li>
+      <li style="display: flex; align-items: center; gap: 12px"><span style="{{dot2}}">2</span><span style="font-weight: 700">Set up 2-step log-in (recommended)</span></li>
+      <li style="display: flex; align-items: center; gap: 12px"><span style="{{dot3}}">3</span><span style="font-weight: 700">Start using the dashboard</span></li>
+    </ol>
+  </aside>
+
+  <main style="flex: 1 1 480px; min-width: 0; padding: 48px 24px; display: flex; align-items: center; justify-content: center">
+    <div style="width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 24px">
+
+      <template data-sc="if" value="{{isForm}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 34px">Create your account</h2>
+            <p style="margin: 0; color: #5A6B67"><strong>[Owner name]</strong> invited you as an <strong>Admin</strong>. This invite expires on [date].</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="i-email" style="font-size: 14px; font-weight: 800">Email</label>
+            <input id="i-email" type="email" value="mika@example.com" readonly="readonly" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #DCE3DD; background: #EDF1EC; font-size: 16px; color: #5A6B67; width: 100%; box-sizing: border-box">
+            <span style="font-size: 13px; color: #5A6B67">From your invite. Ask the owner if this should be different.</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="i-name" style="font-size: 14px; font-weight: 800">Your name</label>
+            <input id="i-name" type="text" autocomplete="name" placeholder="e.g. Mika Santos" value="{{name}}" onChange="{{onName}}" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="i-pass" style="font-size: 14px; font-weight: 800">Password</label>
+            <input id="i-pass" type="password" autocomplete="new-password" placeholder="Create a password" value="{{password}}" onChange="{{onPassword}}" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="i-pass2" style="font-size: 14px; font-weight: 800">Confirm password</label>
+            <input id="i-pass2" type="password" autocomplete="new-password" placeholder="Type it again" value="{{password2}}" onChange="{{onPassword2}}" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+          </div>
+          <ul aria-label="Password rules" style="margin: 0; padding: 14px 16px; list-style: none; display: flex; flex-direction: column; gap: 8px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DCE3DD; font-size: 14px">
+            <template data-sc="for" list="{{rules}}" as="r" hint-placeholder-count="3">
+              <li style="display: flex; align-items: center; gap: 10px">
+                <span aria-hidden="true" style="{{r.dot}}">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+                </span>
+                <span style="{{r.textStyle}}">{{r.label}}</span>
+              </li>
+            </template>
+          </ul>
+          <template data-sc="if" value="{{formErr}}" hint-placeholder-val="{{ false }}">
+            <p role="alert" style="margin: 0; padding: 12px 14px; border-radius: 12px; background: #D7E0D9; color: #356B68; font-size: 14px; font-weight: 700">Add your name and a password that meets all three rules.</p>
+          </template>
+          <button type="button" onClick="{{submitForm}}" style="min-height: 54px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; cursor: pointer">Create account</button>
+          <p style="margin: 0; font-size: 13px; color: #5A6B67">By creating an account you agree to keep client and guest information private, as described in our <a href="#">privacy policy</a>.</p>
+        </div>
+      </template>
+
+      <template data-sc="if" value="{{isTwoFa}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 34px">Protect your account</h2>
+            <p style="margin: 0; color: #5A6B67">Your account can see every client's guest list. Add a second step so a stolen password isn't enough to get in.</p>
+          </div>
+          <div style="display: flex; gap: 18px; align-items: center; padding: 18px; border-radius: 16px; background: #FFFFFF; border: 1px solid #DCE3DD">
+            <div role="img" aria-label="QR code to scan with your authenticator app" style="flex: none; width: 120px; height: 120px; border-radius: 10px; background: #EDF1EC; border: 1px dashed #B7C4BB; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: 700; color: #5A6B67; padding: 8px; box-sizing: border-box">QR code appears here</div>
+            <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+              <span style="font-size: 14px; font-weight: 800">1. Scan with an authenticator app</span>
+              <span style="font-size: 13px; color: #5A6B67">Google Authenticator, Microsoft Authenticator or similar. Can't scan? Enter this key:</span>
+              <code style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; overflow-wrap: anywhere">[SETUP KEY]</code>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="i-code" style="font-size: 14px; font-weight: 800">2. Enter the 6-digit code it shows</label>
+            <input id="i-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" value="{{code}}" onChange="{{onCode}}" style="min-height: 60px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 28px; font-weight: 800; letter-spacing: 0.4em; text-align: center; color: #294B49; width: 100%; box-sizing: border-box">
+            <span style="font-size: 13px; color: #5A6B67">Demo: use 123456</span>
+          </div>
+          <template data-sc="if" value="{{codeErr}}" hint-placeholder-val="{{ false }}">
+            <p role="alert" style="margin: 0; padding: 12px 14px; border-radius: 12px; background: #D7E0D9; color: #356B68; font-size: 14px; font-weight: 700">That code didn't match. Enter the newest code from the app.</p>
+          </template>
+          <button type="button" onClick="{{submitCode}}" style="min-height: 54px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; cursor: pointer">Turn on 2-step log-in</button>
+          <button type="button" onClick="{{skip}}" style="align-self: flex-start; border: 0; background: transparent; padding: 0; min-height: 44px; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Skip for now</button>
+        </div>
+      </template>
+
+      <template data-sc="if" value="{{isDone}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px">
+          <span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #D7E0D9; color: #356B68; display: flex; align-items: center; justify-content: center">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          </span>
+          <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 34px">Your account is ready</h2>
+          <p style="margin: 0; color: #5A6B67">{{doneLine}}</p>
+          <a href="AdminLogin.html" style="min-height: 54px; display: inline-flex; align-items: center; padding: 0 26px; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-weight: 800; font-size: 16px; text-decoration: none">Go to log in</a>
+        </div>
+      </template>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#356B68","options":["#356B68","#294B49","#4A7A5E"]},"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { step: 'form', name: '', password: '', password2: '', code: '', formErr: false, codeErr: false, twoFa: false };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var accent = this.props.accent ?? '#356B68';
+    var checks = [
+      { label: 'At least 10 characters', ok: s.password.length >= 10 },
+      { label: 'Includes a number or symbol', ok: /[^A-Za-z]/.test(s.password) },
+      { label: 'Both passwords match', ok: s.password.length > 0 && s.password === s.password2 }
+    ];
+    var allOk = checks.every(function (c) { return c.ok; });
+    var dotBase = 'flex: none; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; ';
+    var stepNum = s.step === 'form' ? 1 : s.step === 'twofa' ? 2 : 3;
+    function dot(n) {
+      var base = 'flex: none; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; ';
+      if (n < stepNum) return base + 'background: #C5A66B; color: #1E3836;';
+      if (n === stepNum) return base + 'background: ' + accent + '; color: #FFFFFF;';
+      return base + 'background: transparent; color: #B7C4BB; border: 1.5px solid #5A6B67;';
+    }
+    return {
+      accent: accent,
+      isForm: s.step === 'form', isTwoFa: s.step === 'twofa', isDone: s.step === 'done',
+      dot1: dot(1), dot2: dot(2), dot3: dot(3),
+      name: s.name, password: s.password, password2: s.password2, code: s.code,
+      formErr: s.formErr, codeErr: s.codeErr,
+      rules: checks.map(function (c) {
+        return {
+          label: c.label,
+          dot: dotBase + (c.ok ? 'background: #2F7A5A; color: #FFFFFF;' : 'background: #E6ECE7; color: #E6ECE7;'),
+          textStyle: c.ok ? 'color: #2F5A47; font-weight: 700' : 'color: #5A6B67'
+        };
+      }),
+      doneLine: s.twoFa ? '2-step log-in is on. You’ll enter a code from your app each time you log in on a new device.' : 'You can turn on 2-step log-in later from your account settings. We recommend it.',
+      onName: function (e) { self.setState({ name: e.target.value, formErr: false }); },
+      onPassword: function (e) { self.setState({ password: e.target.value, formErr: false }); },
+      onPassword2: function (e) { self.setState({ password2: e.target.value, formErr: false }); },
+      onCode: function (e) { self.setState({ code: e.target.value.replace(/\D/g, '').slice(0, 6), codeErr: false }); },
+      submitForm: function () {
+        if (!s.name.trim() || !allOk) { self.setState({ formErr: true }); return; }
+        self.setState({ step: 'twofa' });
+      },
+      submitCode: function () {
+        if (s.code === '123456') { self.setState({ step: 'done', twoFa: true }); } else { self.setState({ codeErr: true }); }
+      },
+      skip: function () { self.setState({ step: 'done', twoFa: false }); }
+    };
+  }
+}
+</script></template>
+
+</body>
+</html>

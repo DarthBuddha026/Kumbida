@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin log-in</title>
+<script src="../runtime/dc-lite.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F2E9}
+a{color:#356B68}a:hover{color:#294B49}
+input{font-family:Nunito,sans-serif}
+input::placeholder{color:#7E8C88}
+</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="min-height: 900px; display: flex; flex-wrap: wrap; background: #F5F2E9; color: #294B49; font-family: Nunito, sans-serif; line-height: 1.5">
+
+  <!-- BRAND PANEL -->
+  <aside style="flex: 1 1 420px; min-width: 0; background: #294B49; color: #FFFFFF; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; position: relative; overflow: hidden">
+    <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" style="position: absolute; right: 70px; top: 120px; fill: #5A6B67"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" style="position: absolute; right: 150px; top: 200px; fill: #C5A66B"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" style="position: absolute; left: 60%; bottom: 160px; fill: #3F6E6A"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+    <a href="Main.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FFFFFF">
+      <span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 10px; background: #C5A66B; display: flex; align-items: center; justify-content: center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#294B49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+      </span>
+      <span style="font-family: Fraunces, serif; font-size: 22px; font-weight: 600">Kumbida</span>
+    </a>
+    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 26em">
+      <p style="margin: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; color: #C5A66B">ADMIN DASHBOARD</p>
+      <h1 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 44px; line-height: 1.08; text-wrap: balance">Every celebration, in one place.</h1>
+      <p style="margin: 0; font-size: 17px; color: #D7E0D9">Set up events, manage templates and packages, and check RSVPs for every client.</p>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: #B7C4BB">Hosting an event? Use the private link we sent you. There's no log-in for hosts.</p>
+  </aside>
+
+  <!-- FORM -->
+  <main style="flex: 1 1 480px; min-width: 0; padding: 48px 24px; display: flex; align-items: center; justify-content: center">
+    <div style="width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 24px">
+
+      <template data-sc="if" value="{{isLogin}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 22px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 34px">Log in</h2>
+            <p style="margin: 0; color: #5A6B67">For Kumbida team members only.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="a-email" style="font-size: 14px; font-weight: 800">Email</label>
+            <input id="a-email" type="email" autocomplete="username" placeholder="name@example.com" value="{{email}}" onChange="{{onEmail}}" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="display: flex; justify-content: space-between; align-items: baseline">
+              <label for="a-pass" style="font-size: 14px; font-weight: 800">Password</label>
+              <button type="button" onClick="{{goForgot}}" style="border: 0; background: transparent; padding: 0; min-height: 32px; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Forgot password?</button>
+            </div>
+            <div style="position: relative">
+              <input id="a-pass" type="{{passType}}" autocomplete="current-password" placeholder="Your password" value="{{password}}" onChange="{{onPassword}}" style="min-height: 50px; padding: 0 56px 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+              <button type="button" aria-label="{{toggleLabel}}" onClick="{{togglePass}}" style="position: absolute; right: 4px; top: 3px; width: 44px; height: 44px; border: 0; border-radius: 10px; background: transparent; color: #5A6B67; cursor: pointer; display: flex; align-items: center; justify-content: center">
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <label for="a-remember" style="display: flex; align-items: center; gap: 10px; font-size: 15px; cursor: pointer; min-height: 32px">
+            <input id="a-remember" type="checkbox" style="width: 20px; height: 20px; accent-color: {{accent}}">
+            Remember this device for 30 days
+          </label>
+          <template data-sc="if" value="{{loginErr}}" hint-placeholder-val="{{ false }}">
+            <p role="alert" style="margin: 0; padding: 12px 14px; border-radius: 12px; background: #D7E0D9; color: #356B68; font-size: 14px; font-weight: 700">Enter your email and password to continue.</p>
+          </template>
+          <button type="button" onClick="{{submitLogin}}" style="min-height: 54px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; cursor: pointer">Log in</button>
+          <p style="margin: 0; font-size: 14px; color: #5A6B67">New team member? Open the invite link from your email to create your account.</p>
+        </div>
+      </template>
+
+      <template data-sc="if" value="{{isCode}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 22px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 34px">Enter your code</h2>
+            <p style="margin: 0; color: #5A6B67">Open your authenticator app and enter the 6-digit code for Kumbida.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label for="a-code" style="font-size: 14px; font-weight: 800">6-digit code</label>
+            <input id="a-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" value="{{code}}" onChange="{{onCode}}" style="min-height: 60px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 28px; font-weight: 800; letter-spacing: 0.4em; text-align: center; color: #294B49; width: 100%; box-sizing: border-box">
+            <span style="font-size: 13px; color: #5A6B67">Demo: use 123456</span>
+          </div>
+          <template data-sc="if" value="{{codeErr}}" hint-placeholder-val="{{ false }}">
+            <p role="alert" style="margin: 0; padding: 12px 14px; border-radius: 12px; background: #D7E0D9; color: #356B68; font-size: 14px; font-weight: 700">That code didn't work. Codes change every 30 seconds, so try the newest one.</p>
+          </template>
+          <button type="button" onClick="{{submitCode}}" style="min-height: 54px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; cursor: pointer">Verify and log in</button>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px">
+            <button type="button" onClick="{{goLogin}}" style="border: 0; background: transparent; padding: 0; min-height: 44px; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Back</button>
+            <button type="button" style="border: 0; background: transparent; padding: 0; min-height: 44px; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Use a backup code instead</button>
+          </div>
+        </div>
+      </template>
+
+      <template data-sc="if" value="{{isForgot}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 22px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 34px">Reset your password</h2>
+            <p style="margin: 0; color: #5A6B67">Enter your team email and we'll send you a link to set a new password.</p>
+          </div>
+          <template data-sc="if" value="{{resetNotSent}}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; flex-direction: column; gap: 22px">
+              <div style="display: flex; flex-direction: column; gap: 8px">
+                <label for="a-remail" style="font-size: 14px; font-weight: 800">Email</label>
+                <input id="a-remail" type="email" autocomplete="username" placeholder="name@example.com" value="{{email}}" onChange="{{onEmail}}" style="min-height: 50px; padding: 0 16px; border-radius: 12px; border: 1.5px solid #BFCBC2; background: #FFFFFF; font-size: 16px; color: #294B49; width: 100%; box-sizing: border-box">
+              </div>
+              <button type="button" onClick="{{sendReset}}" style="min-height: 54px; border: 0; border-radius: 12px; background: {{accent}}; color: #FFFFFF; font-family: Nunito, sans-serif; font-size: 16px; font-weight: 800; cursor: pointer">Send reset link</button>
+            </div>
+          </template>
+          <template data-sc="if" value="{{resetSent}}" hint-placeholder-val="{{ false }}">
+            <p role="status" style="margin: 0; padding: 16px; border-radius: 12px; background: #EEF5F1; color: #2F5A47; font-size: 15px; font-weight: 700">If that email belongs to a team member, a reset link is on its way. It expires in 1 hour.</p>
+          </template>
+          <button type="button" onClick="{{goLogin}}" style="align-self: flex-start; border: 0; background: transparent; padding: 0; min-height: 44px; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Back to log in</button>
+        </div>
+      </template>
+
+      <template data-sc="if" value="{{isDone}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px">
+          <span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #D7E0D9; color: #356B68; display: flex; align-items: center; justify-content: center">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          </span>
+          <h2 style="margin: 0; font-family: Fraunces, serif; font-weight: 500; font-size: 34px">You're in</h2>
+          <p style="margin: 0; color: #5A6B67">Opening your dashboard…</p>
+          <button type="button" onClick="{{reset}}" style="border: 0; background: transparent; padding: 0; min-height: 44px; color: #356B68; font-family: Nunito, sans-serif; font-size: 14px; font-weight: 800; cursor: pointer">Restart demo</button>
+        </div>
+      </template>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#356B68","options":["#356B68","#294B49","#4A7A5E"]},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { step: 'login', email: '', password: '', show: false, code: '', loginErr: false, codeErr: false, resetSent: false };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    return {
+      accent: this.props.accent ?? '#356B68',
+      isLogin: s.step === 'login', isCode: s.step === 'code', isForgot: s.step === 'forgot', isDone: s.step === 'done',
+      email: s.email, password: s.password, code: s.code,
+      passType: s.show ? 'text' : 'password',
+      toggleLabel: s.show ? 'Hide password' : 'Show password',
+      loginErr: s.loginErr, codeErr: s.codeErr,
+      resetSent: s.resetSent, resetNotSent: !s.resetSent,
+      onEmail: function (e) { self.setState({ email: e.target.value, loginErr: false }); },
+      onPassword: function (e) { self.setState({ password: e.target.value, loginErr: false }); },
+      onCode: function (e) { self.setState({ code: e.target.value.replace(/\D/g, '').slice(0, 6), codeErr: false }); },
+      togglePass: function () { self.setState({ show: !s.show }); },
+      submitLogin: function () {
+        if (!s.email.trim() || !s.password) { self.setState({ loginErr: true }); return; }
+        self.setState({ step: 'code', code: '', codeErr: false });
+      },
+      submitCode: function () {
+        if (s.code === '123456') { self.setState({ step: 'done' }); } else { self.setState({ codeErr: true }); }
+      },
+      goForgot: function () { self.setState({ step: 'forgot', resetSent: false }); },
+      sendReset: function () { self.setState({ resetSent: true }); },
+      goLogin: function () { self.setState({ step: 'login', loginErr: false }); },
+      reset: function () { self.setState({ step: 'login', email: '', password: '', code: '', show: false }); }
+    };
+  }
+}
+</script></template>
+
+</body>
+</html>

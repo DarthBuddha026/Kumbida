@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom floral invitation</title>
+<script src="../../runtime/dc-lite.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&amp;family=Jost:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</head>
+<body>
+<template id="dc-root"><x-dc>
+
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FBF6F1; color: #4A3B36; font-family: Jost, sans-serif; display: flex; flex-direction: column; align-items: center; text-align: center; box-sizing: border-box; padding: 150px 34px 0">
+  <svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+    <g id="tl">
+      <ellipse cx="70" cy="30" rx="34" ry="12" transform="rotate(35 70 30)" fill="#A8BFA0"/>
+      <ellipse cx="150" cy="20" rx="30" ry="10" transform="rotate(-15 150 20)" fill="#BCCFB4"/>
+      <ellipse cx="18" cy="110" rx="32" ry="11" transform="rotate(70 18 110)" fill="#A8BFA0"/>
+      <g transform="translate(46 56)"><circle cx="0" cy="-20" r="18" fill="{{petal}}"/><circle cx="19" cy="-6" r="18" fill="{{petal}}"/><circle cx="12" cy="16" r="18" fill="{{petal}}"/><circle cx="-12" cy="16" r="18" fill="{{petal}}"/><circle cx="-19" cy="-6" r="18" fill="{{petal}}"/><circle r="10" fill="#E9A37E"/></g>
+      <g transform="translate(110 46)"><circle cx="0" cy="-12" r="11" fill="#F6D2B5"/><circle cx="11" cy="-4" r="11" fill="#F6D2B5"/><circle cx="7" cy="10" r="11" fill="#F6D2B5"/><circle cx="-7" cy="10" r="11" fill="#F6D2B5"/><circle cx="-11" cy="-4" r="11" fill="#F6D2B5"/><circle r="6" fill="#E9A37E"/></g>
+      <g transform="translate(20 150)"><circle cx="0" cy="-10" r="9" fill="#F6D2B5"/><circle cx="9" cy="-3" r="9" fill="#F6D2B5"/><circle cx="6" cy="8" r="9" fill="#F6D2B5"/><circle cx="-6" cy="8" r="9" fill="#F6D2B5"/><circle cx="-9" cy="-3" r="9" fill="#F6D2B5"/><circle r="5" fill="#E9A37E"/></g>
+    </g>
+    <use href="#tl" transform="translate(390 844) rotate(180)"/>
+    <g fill="{{petal}}" opacity="0.6"><circle cx="330" cy="70" r="5"/><circle cx="350" cy="110" r="3"/><circle cx="50" cy="760" r="4"/></g>
+  </svg>
+
+  <p style="position: relative; margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.3em">TOGETHER WITH THEIR FAMILIES</p>
+  <h1 style="position: relative; margin: 14px 0 0; display: flex; flex-direction: column; align-items: center; line-height: 1.02; font-family: 'Playfair Display', serif; font-weight: 500">
+    <span style="font-size: 46px">The Happy</span>
+    <span style="font-size: 50px; font-style: italic; color: #B86F57">Couple</span>
+  </h1>
+  <p style="position: relative; margin: 14px 0 0; font-size: 16px">request the pleasure of your company<br>as they celebrate their marriage</p>
+
+  <div style="position: relative; margin-top: 24px; width: 200px; height: 200px; border-radius: 50%; border: 6px solid #FFFFFF; box-shadow: 0 0 0 2px {{petal}}; background: #F4E3DA; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: #8A5A48">Couple's photo</div>
+
+  <div style="position: relative; margin-top: 24px; display: flex; align-items: center; gap: 14px">
+    <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.18em; padding: 6px 0; border-top: 1px solid #C9A99A; border-bottom: 1px solid #C9A99A">[DAY]</span>
+    <span style="display: flex; flex-direction: column; line-height: 1"><span style="font-size: 13px; font-weight: 600; letter-spacing: 0.2em">[MON]</span><span style="font-family: 'Playfair Display', serif; font-size: 42px">[DD]</span><span style="font-size: 13px; font-weight: 600; letter-spacing: 0.2em">[YEAR]</span></span>
+    <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.18em; padding: 6px 0; border-top: 1px solid #C9A99A; border-bottom: 1px solid #C9A99A">[TIME]</span>
+  </div>
+  <p style="position: relative; margin: 14px 0 0; font-size: 15px">Ceremony at [Church name]<br>Reception at [Venue name], [City]</p>
+  <a href="#" style="position: relative; margin-top: 18px; min-height: 48px; display: inline-flex; align-items: center; padding: 0 30px; border-radius: 999px; background: #8A5A48; color: #FFFFFF; font-size: 14px; font-weight: 600; letter-spacing: 0.14em; text-decoration: none">RSVP BY [DATE]</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"petal":{"editor":"color","default":"#F2C4C0","options":["#F2C4C0","#C9B6E4","#F5E1A4"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { petal: this.props.petal ?? '#F2C4C0' }; }
+}
+</script></template>
+
+</body>
+</html>
